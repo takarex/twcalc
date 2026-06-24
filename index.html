@@ -201,6 +201,12 @@ select.inp{cursor:pointer;font-family:'Noto Sans TC',sans-serif;font-size:14px}
 .pb-fill{height:100%;border-radius:4px;transition:width .55s cubic-bezier(.4,0,.2,1)}
 .pb-note{font-size:11.5px;color:var(--ink3);margin-top:8px;font-family:var(--mono);font-variant-numeric:tabular-nums}
 @media(max-width:640px){.donut-svg{width:90px;height:90px}}
+/* ── GROWTH LINE CHART ── */
+.growth-wrap{margin-bottom:22px}
+.chart-legend-row{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink3);margin-bottom:8px;font-weight:500;font-family:'Noto Sans TC',sans-serif;flex-wrap:wrap}
+.clr-dot{display:inline-block;width:10px;height:10px;border-radius:2px;flex-shrink:0;vertical-align:middle}
+.chart-gap-label{font-size:10.5px;color:var(--ink4);margin-left:2px}
+.growth-svg{width:100%;height:auto;display:block}
 
 /* ── INSIGHT BOX ── */
 .insight{background:var(--blue-lt);border:none;border-left:3px solid var(--blue);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:18px 22px;font-size:14px;color:var(--ink2);line-height:1.85}
@@ -1176,11 +1182,12 @@ function calcST(){
   let portfolio = initial;
   const totalInvested = initial + monthly*12*years;
   let totalDivGross=0, totalDivTax=0, totalSuppPremium=0, totalDivNet=0;
+  const yPort=[initial], yPrin=[initial]; // year 0 starting point
 
   for(let y=1; y<=years; y++){
     const dca = monthly*12;
     portfolio = portfolio*(1+priceReturn);
-    const grossDiv = (portfolio + dca*0.5)*divYield;
+    const grossDiv = (portfolio+dca*0.5)*divYield;
     totalDivGross += grossDiv;
     const supp = grossDiv*0.0211;
     totalSuppPremium += supp;
@@ -1188,15 +1195,18 @@ function calcST(){
       ? grossDiv*0.28
       : Math.max(0, grossDiv*combinedRate - Math.min(grossDiv*0.085, 80000));
     totalDivTax += dtax;
-    const netDiv = grossDiv - dtax - supp;
+    const netDiv = grossDiv-dtax-supp;
     totalDivNet += netDiv;
-    portfolio += dca + (reinvest ? netDiv : 0);
+    portfolio += dca+(reinvest?netDiv:0);
+    yPort.push(portfolio);
+    yPrin.push(initial+monthly*12*y);
   }
 
   const stt = portfolio*0.003;
-  const netPortfolio = portfolio - stt;
-  const totalWealth = netPortfolio + (reinvest ? 0 : totalDivNet);
-  const totalGain = Math.max(0, totalWealth - totalInvested);
+  const netPortfolio = portfolio-stt;
+  const totalWealth = netPortfolio+(reinvest?0:totalDivNet);
+  const totalGain = Math.max(0, totalWealth-totalInvested);
+  const totalFees = totalDivTax+totalSuppPremium+stt;
   const annualizedNet = totalInvested>0
     ? (Math.pow(totalWealth/totalInvested, 1/years)-1)*100 : 0;
 
@@ -1205,38 +1215,85 @@ function calcST(){
   $('st-live-divnet').textContent = fmtW(totalDivNet/10000)+' 萬';
   $('st-live-ret').textContent = pct(annualizedNet)+'%';
 
-  const bPrinPct = Math.min(100, totalInvested/totalWealth*100);
-  const bGainPct = Math.max(0, 100 - bPrinPct);
+  // Bar chart: 本金 / 淨收益 / 稅費成本 （三者合計 = 投資總量）
+  const grossBase = totalInvested+totalGain+totalFees;
+  const bPrin = totalInvested/grossBase*100;
+  const bGain = totalGain/grossBase*100;
+  const bFees = totalFees/grossBase*100;
 
-  let taxAdvice = '';
+  // Tax comparison advice
+  let taxAdvice='';
   if(taxMethod==='sep28' && combinedRate<0.28){
-    const altTax = Math.max(0, totalDivGross*combinedRate - Math.min(totalDivGross*0.085, 80000)*years);
-    const saving = Math.max(0, totalDivTax - altTax);
-    if(saving>5000) taxAdvice = `改採合併申報（${Math.round(combinedRate*100)}%）可省股利稅約 <strong>${fmt(saving)}</strong> 元，建議評估。`;
+    const altTax=Math.max(0,totalDivGross*combinedRate-Math.min(totalDivGross*0.085,80000)*years);
+    const saving=Math.max(0,totalDivTax-altTax);
+    if(saving>5000) taxAdvice=`改採合併申報（${Math.round(combinedRate*100)}%）可省股利稅約 <strong>${fmt(saving)}</strong> 元，建議評估。`;
   } else if(taxMethod==='combined' && combinedRate>0.28){
-    const saving = Math.max(0, totalDivTax - totalDivGross*0.28);
-    if(saving>5000) taxAdvice = `個人稅率 ${Math.round(combinedRate*100)}% 高於 28%，改採分開計稅可省約 <strong>${fmt(saving)}</strong> 元。`;
+    const saving=Math.max(0,totalDivTax-totalDivGross*0.28);
+    if(saving>5000) taxAdvice=`個人稅率 ${Math.round(combinedRate*100)}% 高於 28%，改採分開計稅可省約 <strong>${fmt(saving)}</strong> 元。`;
   }
 
-  $('st-results').innerHTML = `
+  // ── SVG Growth Chart ──
+  const W=420,H=130,PL=50,PR=16,PT=8,PB=26;
+  const maxV=yPort[years], chartW=W-PL-PR, chartH=H-PT-PB;
+  const xS=y=>PL+(y/years)*chartW;
+  const yS=v=>PT+chartH-(Math.max(0,v)/maxV)*chartH;
+  const portPath=yPort.map((v,i)=>`${i===0?'M':'L'}${xS(i).toFixed(1)},${yS(v).toFixed(1)}`).join(' ');
+  const prinPath=yPrin.map((v,i)=>`${i===0?'M':'L'}${xS(i).toFixed(1)},${yS(v).toFixed(1)}`).join(' ');
+  const fillPath=[...yPort.map((v,i)=>`${i===0?'M':'L'}${xS(i).toFixed(1)},${yS(v).toFixed(1)}`),
+    ...[...yPrin].reverse().map((v,i)=>`L${xS(years-i).toFixed(1)},${yS(v).toFixed(1)}`),
+    'Z'].join(' ');
+  const gridLines=[0.25,0.5,0.75].map(t=>{
+    const gv=maxV*t;
+    return `<line x1="${PL}" y1="${yS(gv).toFixed(1)}" x2="${W-PR}" y2="${yS(gv).toFixed(1)}" stroke="var(--line)" stroke-width=".5"/>
+    <text x="${PL-5}" y="${(yS(gv)+3.5).toFixed(1)}" text-anchor="end" font-size="8" fill="var(--ink4)" font-family="IBM Plex Mono,monospace">${fmtW(gv/10000)}</text>`;
+  }).join('');
+  const xStep=years<=10?2:years<=20?5:10;
+  const xMarks=[];
+  for(let y=xStep;y<years;y+=xStep) xMarks.push(y);
+  xMarks.push(years);
+  const xLabels=xMarks.map(xm=>`<text x="${xS(xm).toFixed(1)}" y="${H-3}" text-anchor="middle" font-size="8" fill="var(--ink4)" font-family="IBM Plex Mono,monospace">${xm}年</text>`).join('');
+  const fX=xS(years).toFixed(1), fY=Math.max(12,yS(yPort[years])-7).toFixed(1);
+
+  const chartHTML=`
+    <div class="growth-wrap">
+      <div class="chart-legend-row">
+        <span class="clr-dot" style="background:var(--blue)"></span>到期資產
+        <span class="clr-dot" style="background:var(--line2);margin-left:14px"></span>投入本金
+        <span class="chart-gap-label">（差距 = 複利收益）</span>
+      </div>
+      <svg viewBox="0 0 ${W} ${H}" class="growth-svg" aria-hidden="true">
+        ${gridLines}
+        <line x1="${PL}" y1="${PT+chartH}" x2="${W-PR}" y2="${PT+chartH}" stroke="var(--line2)" stroke-width="1"/>
+        <path d="${fillPath}" fill="var(--blue)" fill-opacity=".08"/>
+        <path d="${prinPath}" fill="none" stroke="var(--line2)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <path d="${portPath}" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        ${xLabels}
+        <circle cx="${xS(years).toFixed(1)}" cy="${yS(yPort[years]).toFixed(1)}" r="3.5" fill="var(--blue)"/>
+        <text x="${fX}" y="${fY}" text-anchor="end" font-size="8.5" fill="var(--blue)" font-family="IBM Plex Mono,monospace" font-weight="600">${fmtW(yPort[years]/10000)}萬</text>
+      </svg>
+    </div>`;
+
+  $('st-results').innerHTML=`
     <div class="results-panel">
       <p class="results-title">試算結果（${years} 年 · ${reinvest?'股利再投入':'股利年提領'}）</p>
       <div class="kpi-row">
         <div class="kpi"><div class="kpi-label">總投入本金</div><div class="kpi-val blue">${fmtW(totalInvested/10000)}<span style="font-size:14px"> 萬</span></div></div>
         <div class="kpi"><div class="kpi-label">扣證交稅後到期資產</div><div class="kpi-val">${fmtW(netPortfolio/10000)}<span style="font-size:14px"> 萬</span></div></div>
-        <div class="kpi"><div class="kpi-label">${reinvest?'資產淨增值':'資本利得（免稅）'}</div><div class="kpi-val green">${fmtW(Math.max(0,netPortfolio-totalInvested)/10000)}<span style="font-size:14px"> 萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">${reinvest?'投資淨增值':'資本利得（免稅）'}</div><div class="kpi-val green">${fmtW(totalGain/10000)}<span style="font-size:14px"> 萬</span></div></div>
         <div class="kpi"><div class="kpi-label">稅後股利累計</div><div class="kpi-val">${fmtW(totalDivNet/10000)}<span style="font-size:14px"> 萬</span></div></div>
-        <div class="kpi"><div class="kpi-label">稅費合計（股利稅＋補充保費＋證交稅）</div><div class="kpi-val amber">${fmtW((totalDivTax+totalSuppPremium+stt)/10000)}<span style="font-size:14px"> 萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">稅費合計（股利稅＋補充保費＋證交稅）</div><div class="kpi-val amber">${fmtW(totalFees/10000)}<span style="font-size:14px"> 萬</span></div></div>
         <div class="kpi"><div class="kpi-label">稅後年化報酬率</div><div class="kpi-val blue">${pct(annualizedNet)}<span style="font-size:14px"> %</span></div></div>
       </div>
+      ${chartHTML}
       <div class="bars">
-        ${bar('fill-blue', bPrinPct, '本金', totalInvested)}
-        ${bar('fill-green', bGainPct, reinvest?'投資收益（含再投入股利）':'資本利得（免稅）', totalGain)}
+        ${bar('fill-blue',bPrin,'本金',totalInvested)}
+        ${bar('fill-green',bGain,reinvest?'投資淨收益（含再投入股利）':'資本利得（免稅）',totalGain)}
+        ${bar('fill-amber',bFees,'稅費成本（揭露你繳了多少）',totalFees)}
       </div>
       <div class="insight">
         投入本金 <strong>${fmtW(totalInvested/10000)} 萬</strong>，年化 ${pct(annualReturn*100)}% 投資 ${years} 年，扣證交稅後到期資產 <strong>${fmtW(netPortfolio/10000)} 萬</strong>。台灣個人股票資本利得<strong>免稅</strong>，真正的稅費成本來自股利與交易稅。<br><br>
         期間稅前股利 ${fmtW(totalDivGross/10000)} 萬，扣${taxMethod==='sep28'?'分開計稅（28%）':('合併申報（'+Math.round(combinedRate*100)+'%）')} ${fmtW(totalDivTax/10000)} 萬、補充保費 ${fmtW(totalSuppPremium/10000)} 萬後，稅後股利 <strong>${fmtW(totalDivNet/10000)} 萬</strong>。${reinvest?'股利全數再投入，複利效果最大化。':'股利每年提領，適合需要現金流者。'}<br><br>
-        稅後年化報酬率 <strong>${pct(annualizedNet)}%</strong>，與假設稅前報酬率 ${pct(annualReturn*100)}% 相差 ${pct(annualReturn*100-annualizedNet)}%——這就是稅費的真實代價。${taxAdvice?'<br><br>'+taxAdvice:''}
+        稅後年化報酬率 <strong>${pct(annualizedNet)}%</strong>，與稅前 ${pct(annualReturn*100)}% 相差 ${pct(annualReturn*100-annualizedNet)}%——這是稅費的真實代價。${taxAdvice?'<br><br>'+taxAdvice:''}
       </div>
     </div>`;
 }
