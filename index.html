@@ -332,6 +332,7 @@ html[data-theme="light"]{--ink:#16181d;--ink2:#3a3f4b;--ink3:#5a5f6b;--ink4:#8a8
       <button class="nav-pill" onclick="go('car')">買車</button>
       <button class="nav-pill" onclick="go('retire')">退休</button>
       <button class="nav-pill" onclick="go('rvb')">租vs買</button>
+      <button class="nav-pill" onclick="go('stock')">股票投資</button>
     </nav>
     <button id="theme-btn" class="icon-btn" onclick="toggleTheme()" aria-label="切換深色/淺色模式" style="flex-shrink:0">深色</button>
   </div>
@@ -351,7 +352,7 @@ html[data-theme="light"]{--ink:#16181d;--ink2:#3a3f4b;--ink3:#5a5f6b;--ink4:#8a8
       </div>
     </div>
     <div class="hero-accent" aria-hidden="true">
-      <div class="hero-accent-num">6</div>
+      <div class="hero-accent-num">7</div>
       <div class="hero-accent-label">大財務工具</div>
     </div>
   </div>
@@ -397,6 +398,11 @@ html[data-theme="light"]{--ink:#16181d;--ink2:#3a3f4b;--ink3:#5a5f6b;--ink4:#8a8
       <span class="tool-emoji">⚖️</span>
       <div class="tool-name">租屋 vs 買房</div>
       <div class="tool-desc">含頭期款機會成本的比較</div>
+    </button>
+    <button class="tool-btn" id="btn-stock" role="tab" aria-selected="false" aria-controls="panel-stock" onclick="go('stock')">
+      <span class="tool-emoji">📈</span>
+      <div class="tool-name">股票投資試算</div>
+      <div class="tool-desc">定期定額複利、台灣稅費真實報酬</div>
     </button>
   </div>
 
@@ -934,6 +940,106 @@ html[data-theme="light"]{--ink:#16181d;--ink2:#3a3f4b;--ink3:#5a5f6b;--ink4:#8a8
     <div class="ad-mid">廣告位 — Google AdSense 工具下方</div>
   </div>
 
+  <!-- ═══════════════ 股票投資試算 ═══════════════ -->
+  <div class="panel" id="panel-stock" role="tabpanel" aria-labelledby="btn-stock">
+    <section class="calc-shell" aria-labelledby="stock-title">
+      <div class="calc-header">
+        <div>
+          <div class="calc-title-row">
+            <span class="calc-emoji" aria-hidden="true">📈</span>
+            <h2 class="calc-title" id="stock-title">股票投資試算</h2>
+          </div>
+          <p class="calc-subtitle">定期定額的複利真實報酬，含台灣特有稅費：證交稅 0.3%、股利補充保費 2.11%、股利所得稅。資本利得目前免稅</p>
+        </div>
+      </div>
+      <div class="live-bar" id="st-live" aria-live="polite">
+        <div class="live-item">
+          <span class="live-label">到期資產</span>
+          <span class="live-val" id="st-live-total">—</span>
+        </div>
+        <div class="live-item">
+          <span class="live-label">稅後股利累計</span>
+          <span class="live-val" id="st-live-divnet">—</span>
+        </div>
+        <div class="live-item">
+          <span class="live-label">稅後年化報酬</span>
+          <span class="live-val" id="st-live-ret">—</span>
+        </div>
+      </div>
+      <div class="calc-body">
+        <div class="form-cols">
+          <div>
+            <div class="form-section-label">投資設定</div>
+            <div class="field">
+              <label for="st-initial">初始投入金額（萬元）</label>
+              <input class="inp" type="number" id="st-initial" value="100" min="0" oninput="calcST()">
+            </div>
+            <div class="field">
+              <label for="st-monthly">每月定期定額（元）</label>
+              <input class="inp" type="number" id="st-monthly" value="10000" min="0" oninput="calcST()">
+            </div>
+            <div class="field">
+              <label for="st-years">投資年數（年）</label>
+              <input class="inp" type="number" id="st-years" value="20" min="1" max="50" oninput="calcST()">
+            </div>
+            <div class="form-section-label">報酬假設</div>
+            <div class="field">
+              <label for="st-return">預期年化報酬率（%）</label>
+              <input class="inp" type="number" id="st-return" value="9" min="0" max="50" step="0.5" oninput="calcST()">
+              <p class="field-hint">台股加權含息指數長期均約 9–11%；0050 近 10 年約 12%；保守估算用 7%</p>
+            </div>
+            <div class="field">
+              <label for="st-div">其中年殖利率（%）</label>
+              <input class="inp" type="number" id="st-div" value="3.5" min="0" max="20" step="0.5" oninput="calcST()">
+              <p class="field-hint">台股平均約 3–5%；0050 約 3%；0056 約 5–7%；不可超過總報酬率</p>
+            </div>
+            <div class="field">
+              <label for="st-reinvest">股利處理方式</label>
+              <select class="inp" id="st-reinvest" onchange="calcST()">
+                <option value="yes" selected>再投入（複利持續累積）</option>
+                <option value="no">每年提領（作為現金收入）</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <div class="form-section-label">稅費設定（台灣）</div>
+            <div class="field">
+              <label for="st-tax">股利課稅方式</label>
+              <select class="inp" id="st-tax" onchange="calcST()">
+                <option value="combined" selected>合併申報（依所得稅率，享 8.5% 可抵稅）</option>
+                <option value="sep28">分開計稅（一律 28%）</option>
+              </select>
+              <p class="field-hint">所得稅率 ≤ 30% 通常合併申報較省；40% 者選分開計稅</p>
+            </div>
+            <div class="field" id="st-crate-field">
+              <label for="st-crate">個人所得稅邊際稅率（%）</label>
+              <select class="inp" id="st-crate" onchange="calcST()">
+                <option value="5">5%（年所得約 56 萬以下）</option>
+                <option value="12">12%（年所得約 126 萬以下）</option>
+                <option value="20" selected>20%（年所得約 252 萬以下）</option>
+                <option value="30">30%（年所得約 472 萬以下）</option>
+                <option value="40">40%（年所得 472 萬以上）</option>
+              </select>
+              <p class="field-hint">可搭配所得稅試算工具確認你的邊際稅率</p>
+            </div>
+            <div class="field">
+              <div style="background:var(--blue-lt);border-radius:var(--r-sm);padding:14px 16px;font-size:12.5px;color:var(--ink2);line-height:1.85">
+                <strong style="display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:8px">自動計算（無需填寫）</strong>
+                証券交易稅 <strong>0.3%</strong>（賣出時課徵）<br>
+                健保股利補充保費 <strong>2.11%</strong><br>
+                資本利得個人上市股票目前<strong>免稅</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="st-results"></div>
+      <p class="note" style="padding:0 24px 16px">※ 本試算採定期定額複利模型，實際市場有波動風險，報酬率為假設值非保證。股利補充保費以整體股利估算（實際依各公司個別計算）。資本利得免稅政策以現行法規為準，未來可能調整。不構成投資建議。</p>
+    </section>
+    <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+    <div class="ad-mid">廣告位 — Google AdSense 工具下方</div>
+  </div>
+
   <!-- SEO 說明 -->
   <div class="info-grid">
     <div class="info-card">
@@ -971,6 +1077,7 @@ html[data-theme="light"]{--ink:#16181d;--ink2:#3a3f4b;--ink3:#5a5f6b;--ink4:#8a8
     <a href="#" onclick="go('car');return false">買車成本</a>
     <a href="#" onclick="go('retire');return false">退休金缺口</a>
     <a href="#" onclick="go('rvb');return false">租屋vs買房</a>
+    <a href="#" onclick="go('stock');return false">股票投資</a>
   </div>
 </footer>
 
@@ -996,11 +1103,12 @@ const toolInputIds = {
   tax:      ['t-salary','t-bonus','t-other','t-deps','t-disabled','t-ins','t-health','t-rent','t-donate','t-medical','t-status'],
   car:      ['c-price','c-type','c-loan','c-lrate','c-hold','c-resale','c-fuel','c-park','c-ins','c-repair','c-ticket'],
   retire:   ['r-age','r-retage','r-life','r-exp','r-inflation','r-save','r-monthly','r-ret','r-pension','r-other'],
-  rvb:      ['rv-price','rv-down','rv-mrate','rv-myears','rv-mgmt','rv-app','rv-rent','rv-rrise','rv-inv','rv-horizon','rv-reno']
+  rvb:      ['rv-price','rv-down','rv-mrate','rv-myears','rv-mgmt','rv-app','rv-rent','rv-rrise','rv-inv','rv-horizon','rv-reno'],
+  stock:    ['st-initial','st-monthly','st-years','st-return','st-div','st-reinvest','st-tax','st-crate']
 };
 
 /* ── 工具切換 ── */
-const tools = ['mortgage','salary','tax','car','retire','rvb'];
+const tools = ['mortgage','salary','tax','car','retire','rvb','stock'];
 let currentTool = 'mortgage';
 
 function go(name, silent){
@@ -1014,7 +1122,7 @@ function go(name, silent){
     });
   });
   if(!silent) $('panel-'+name).scrollIntoView({behavior:'smooth',block:'start'});
-  ({mortgage:calcM,salary:calcS,tax:calcT,car:calcC,retire:calcR,rvb:calcRV})[name]?.();
+  ({mortgage:calcM,salary:calcS,tax:calcT,car:calcC,retire:calcR,rvb:calcRV,stock:calcST})[name]?.();
 }
 
 /* ── 分享結果 ── */
@@ -1050,6 +1158,89 @@ function showToast(msg){
 }
 
 /* ── localStorage ── */
+/* ══════════ 股票投資試算 ══════════ */
+function calcST(){
+  const initial = v('st-initial')*10000;
+  const monthly = v('st-monthly');
+  const years = Math.max(1, vi('st-years'));
+  const annualReturn = v('st-return')/100;
+  const divYield = Math.min(v('st-div')/100, annualReturn);
+  const reinvest = vs('st-reinvest')==='yes';
+  const taxMethod = vs('st-tax');
+  const combinedRate = v('st-crate')/100;
+
+  const crField = $('st-crate-field');
+  if(crField) crField.style.display = taxMethod==='combined'?'':'none';
+
+  const priceReturn = annualReturn - divYield;
+  let portfolio = initial;
+  const totalInvested = initial + monthly*12*years;
+  let totalDivGross=0, totalDivTax=0, totalSuppPremium=0, totalDivNet=0;
+
+  for(let y=1; y<=years; y++){
+    const dca = monthly*12;
+    portfolio = portfolio*(1+priceReturn);
+    const grossDiv = (portfolio + dca*0.5)*divYield;
+    totalDivGross += grossDiv;
+    const supp = grossDiv*0.0211;
+    totalSuppPremium += supp;
+    const dtax = taxMethod==='sep28'
+      ? grossDiv*0.28
+      : Math.max(0, grossDiv*combinedRate - Math.min(grossDiv*0.085, 80000));
+    totalDivTax += dtax;
+    const netDiv = grossDiv - dtax - supp;
+    totalDivNet += netDiv;
+    portfolio += dca + (reinvest ? netDiv : 0);
+  }
+
+  const stt = portfolio*0.003;
+  const netPortfolio = portfolio - stt;
+  const totalWealth = netPortfolio + (reinvest ? 0 : totalDivNet);
+  const totalGain = Math.max(0, totalWealth - totalInvested);
+  const annualizedNet = totalInvested>0
+    ? (Math.pow(totalWealth/totalInvested, 1/years)-1)*100 : 0;
+
+  $('st-live').className = 'live-bar';
+  $('st-live-total').textContent = fmtW(netPortfolio/10000)+' 萬';
+  $('st-live-divnet').textContent = fmtW(totalDivNet/10000)+' 萬';
+  $('st-live-ret').textContent = pct(annualizedNet)+'%';
+
+  const bPrinPct = Math.min(100, totalInvested/totalWealth*100);
+  const bGainPct = Math.max(0, 100 - bPrinPct);
+
+  let taxAdvice = '';
+  if(taxMethod==='sep28' && combinedRate<0.28){
+    const altTax = Math.max(0, totalDivGross*combinedRate - Math.min(totalDivGross*0.085, 80000)*years);
+    const saving = Math.max(0, totalDivTax - altTax);
+    if(saving>5000) taxAdvice = `改採合併申報（${Math.round(combinedRate*100)}%）可省股利稅約 <strong>${fmt(saving)}</strong> 元，建議評估。`;
+  } else if(taxMethod==='combined' && combinedRate>0.28){
+    const saving = Math.max(0, totalDivTax - totalDivGross*0.28);
+    if(saving>5000) taxAdvice = `個人稅率 ${Math.round(combinedRate*100)}% 高於 28%，改採分開計稅可省約 <strong>${fmt(saving)}</strong> 元。`;
+  }
+
+  $('st-results').innerHTML = `
+    <div class="results-panel">
+      <p class="results-title">試算結果（${years} 年 · ${reinvest?'股利再投入':'股利年提領'}）</p>
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-label">總投入本金</div><div class="kpi-val blue">${fmtW(totalInvested/10000)}<span style="font-size:14px"> 萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">扣證交稅後到期資產</div><div class="kpi-val">${fmtW(netPortfolio/10000)}<span style="font-size:14px"> 萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">${reinvest?'資產淨增值':'資本利得（免稅）'}</div><div class="kpi-val green">${fmtW(Math.max(0,netPortfolio-totalInvested)/10000)}<span style="font-size:14px"> 萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">稅後股利累計</div><div class="kpi-val">${fmtW(totalDivNet/10000)}<span style="font-size:14px"> 萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">稅費合計（股利稅＋補充保費＋證交稅）</div><div class="kpi-val amber">${fmtW((totalDivTax+totalSuppPremium+stt)/10000)}<span style="font-size:14px"> 萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">稅後年化報酬率</div><div class="kpi-val blue">${pct(annualizedNet)}<span style="font-size:14px"> %</span></div></div>
+      </div>
+      <div class="bars">
+        ${bar('fill-blue', bPrinPct, '本金', totalInvested)}
+        ${bar('fill-green', bGainPct, reinvest?'投資收益（含再投入股利）':'資本利得（免稅）', totalGain)}
+      </div>
+      <div class="insight">
+        投入本金 <strong>${fmtW(totalInvested/10000)} 萬</strong>，年化 ${pct(annualReturn*100)}% 投資 ${years} 年，扣證交稅後到期資產 <strong>${fmtW(netPortfolio/10000)} 萬</strong>。台灣個人股票資本利得<strong>免稅</strong>，真正的稅費成本來自股利與交易稅。<br><br>
+        期間稅前股利 ${fmtW(totalDivGross/10000)} 萬，扣${taxMethod==='sep28'?'分開計稅（28%）':('合併申報（'+Math.round(combinedRate*100)+'%）')} ${fmtW(totalDivTax/10000)} 萬、補充保費 ${fmtW(totalSuppPremium/10000)} 萬後，稅後股利 <strong>${fmtW(totalDivNet/10000)} 萬</strong>。${reinvest?'股利全數再投入，複利效果最大化。':'股利每年提領，適合需要現金流者。'}<br><br>
+        稅後年化報酬率 <strong>${pct(annualizedNet)}%</strong>，與假設稅前報酬率 ${pct(annualReturn*100)}% 相差 ${pct(annualReturn*100-annualizedNet)}%——這就是稅費的真實代價。${taxAdvice?'<br><br>'+taxAdvice:''}
+      </div>
+    </div>`;
+}
+
 function saveToStorage(){
   try{
     const data = {};
