@@ -1489,6 +1489,31 @@ function calcS(){
   $('s-live-pct').textContent = (raisePct>=0?'+':'')+pct(raisePct)+'%';
   $('s-live-break').textContent = breakEvenMo>0 ? breakEvenMo+' 個月' : (senLoss===0?'無年資損失':'已正收益');
 
+  const _mxSal = Math.max(cur,nw)||1;
+  const _salComp = cur>0
+    ? '<div class="pb-wrap"><div class="pb-header"><span class="pb-title">目前月薪</span>'
+      +'<span class="pb-pct" style="font-size:18px;color:var(--ink2)">'+fmt(cur)+' 元</span></div>'
+      +'<div class="pb-track"><div class="pb-fill fill-blue" style="width:'+(cur/_mxSal*100).toFixed(1)+'%"></div></div></div>'
+      +'<div class="pb-wrap"><div class="pb-header"><span class="pb-title">新月薪（'+(raise>=0?'+':'')+pct(raisePct)+'%）</span>'
+      +'<span class="pb-pct" style="font-size:18px;color:'+(raise>=0?'var(--green)':'var(--red)')+'">'+fmt(nw)+' 元</span></div>'
+      +'<div class="pb-track"><div class="pb-fill '+(raise>=0?'fill-green':'fill-red')+'" style="width:'+(nw/_mxSal*100).toFixed(1)+'%"></div></div>'
+      +'<div class="pb-note">扣隱性成本後，每月實際'+(netMo>=0?'多':'少')+' <strong>'+fmt(Math.abs(netMo))+' 元</strong></div></div>'
+    : '';
+  let _breakMeter = '';
+  if(breakEvenMo>0){
+    const _bc=breakEvenMo<=12?'var(--green)':breakEvenMo<=24?'var(--blue)':'var(--amber)';
+    const _bf=breakEvenMo<=12?'fill-green':breakEvenMo<=24?'fill-blue':'fill-amber';
+    const _bn=breakEvenMo<=12?'低風險：1 年內可回收年資損失'
+      :breakEvenMo<=24?'可接受：約'+(breakEvenMo/12).toFixed(1)+'年'
+      :breakEvenMo<=36?'注意：需'+(breakEvenMo/12).toFixed(1)+'年，確認新工作穩定性再跳槽'
+      :'高風險：需超過'+Math.round(breakEvenMo/12)+'年才能打平，謹慎評估';
+    _breakMeter='<div class="pb-wrap"><div class="pb-header">'
+      +'<span class="pb-title">年資損失回收進度（5 年基準）</span>'
+      +'<span class="pb-pct" style="color:'+_bc+'">需 '+breakEvenMo+' 個月</span></div>'
+      +'<div class="pb-track"><div class="pb-fill '+_bf+'" style="width:'+Math.min(100,Math.round(breakEvenMo/60*100))+'%"></div></div>'
+      +'<div class="pb-note">'+_bn+'</div></div>';
+  }
+
   $('s-results').innerHTML = `
     <div class="results-panel">
       <p class="results-title">試算結果</p>
@@ -1500,6 +1525,7 @@ function calcS(){
         <div class="kpi"><div class="kpi-label">五年累積淨增加</div><div class="kpi-val ${fiveYr>=0?'green':'red'}">${fiveYr>=0?'+':''}${fmtW(fiveYr/10000)}<span style="font-size:14px">萬</span></div></div>
         <div class="kpi"><div class="kpi-label">十年累積淨增加</div><div class="kpi-val ${tenYr>=0?'green':'red'}">${tenYr>=0?'+':''}${fmtW(tenYr/10000)}<span style="font-size:14px">萬</span></div></div>
       </div>
+      ${_salComp}${_breakMeter}
       <div class="insight ${annualNet<0?'amber':fiveYr>0?'':'amber'}">
         ${senLoss>0&&annualNet>0?`<strong>損益平衡點：</strong>約需 <strong>${breakEvenMo} 個月</strong>才能回收損失的年資價值。<br><br>`:''}
         ${annualNet>0
@@ -1557,6 +1583,34 @@ function calcT(){
     return `<tr${isApplied?' class="row-highlight"':''}><td>${fmt(lo)}${hi===Infinity?'以上':'–'+fmt(hi)}</td><td>${r*100}%</td><td${isApplied?` class="win"`:''}>${isApplied?'▶ 適用':''}</td></tr>`;
   }).join('');
 
+  const _dCt=2*Math.PI*36;
+  const _taxPct=totalIncome>0?tax/totalIncome*100:0;
+  const _keepPct=100-_taxPct;
+  const _dSk=_keepPct/100*_dCt;
+  const _dSt=_taxPct/100*_dCt;
+  const _tDonut='<div class="donut-row">'
+    +'<svg class="donut-svg" viewBox="0 0 100 100" aria-hidden="true">'
+    +'<g transform="rotate(-90 50 50)">'
+    +'<circle cx="50" cy="50" r="36" fill="none" stroke="var(--line)" stroke-width="13"/>'
+    +'<circle cx="50" cy="50" r="36" fill="none" stroke="var(--blue)" stroke-width="13"'
+    +' stroke-dasharray="'+_dSk.toFixed(1)+' '+(_dCt-_dSk).toFixed(1)+'"/>'
+    +'<circle cx="50" cy="50" r="36" fill="none" stroke="var(--amber)" stroke-width="13"'
+    +' stroke-dasharray="'+_dSt.toFixed(1)+' '+(_dCt-_dSt).toFixed(1)+'"'
+    +' stroke-dashoffset="'+_dSt.toFixed(1)+'"'
+    +' style="transition:stroke-dasharray .55s ease,stroke-dashoffset .55s ease"/>'
+    +'</g>'
+    +'<text x="50" y="44" text-anchor="middle" dominant-baseline="central" font-size="15" font-weight="700" fill="var(--amber)" font-family="IBM Plex Mono,monospace" font-variant-numeric="tabular-nums">'+pct(_taxPct)+'%</text>'
+    +'<text x="50" y="57" text-anchor="middle" dominant-baseline="central" font-size="8" fill="var(--ink4)" font-family="Noto Sans TC,sans-serif">有效稅率</text>'
+    +'</svg>'
+    +'<div class="donut-legend">'
+    +'<div class="donut-legend-item"><span class="donut-dot" style="background:var(--blue)"></span>'
+    +'<div><div class="donut-item-label">稅後保留</div>'
+    +'<div class="donut-item-val">'+fmtW(afterTax/10000)+' 萬 · '+pct(_keepPct)+'%</div></div></div>'
+    +'<div class="donut-legend-item"><span class="donut-dot" style="background:var(--amber)"></span>'
+    +'<div><div class="donut-item-label">應繳稅額</div>'
+    +'<div class="donut-item-val">'+fmt(tax)+' 元 · '+pct(_taxPct)+'%</div></div></div>'
+    +'</div></div>';
+
   $('t-results').innerHTML = `
     <div class="results-panel">
       <p class="results-title">試算結果（${married?'已婚合併申報':'單身申報'}）</p>
@@ -1568,6 +1622,7 @@ function calcT(){
         <div class="kpi"><div class="kpi-label">稅後年收</div><div class="kpi-val blue">${fmtW(afterTax/10000)}<span style="font-size:14px">萬</span></div></div>
         <div class="kpi"><div class="kpi-label">稅後月收（均攤）</div><div class="kpi-val blue">${fmt(moAfter)}<span style="font-size:14px">元</span></div></div>
       </div>
+      ${_tDonut}
       <div class="bars">
         ${bar('fill-blue', salaryDeduct/totalIncome*100, '薪資特別扣除額', salaryDeduct)}
         ${bar('fill-green', exemption/totalIncome*100, '免稅額（'+pplCount+'人）', exemption)}
@@ -1638,6 +1693,17 @@ function calcC(){
         <div class="kpi"><div class="kpi-label">車輛折舊損失</div><div class="kpi-val red">${fmtW(dep/10000)}<span style="font-size:14px">萬</span></div></div>
         <div class="kpi"><div class="kpi-label">貸款利息</div><div class="kpi-val">${fmt(totalInt)}<span style="font-size:14px">元</span></div></div>
         <div class="kpi"><div class="kpi-label">油+停+保+修+稅</div><div class="kpi-val">${fmtW(annRun*hold/10000)}<span style="font-size:14px">萬</span></div></div>
+      </div>
+      <div class="pb-wrap">
+        <div class="pb-header">
+          <span class="pb-title">每月真實成本組成</span>
+          <span class="pb-pct" style="color:var(--amber)">${fmt(moCost)} 元/月</span>
+        </div>
+        <div class="pb-track" style="display:flex;overflow:hidden">
+          <div style="width:${moCost>0?(Math.min(100,moLoan/moCost*100)).toFixed(1):0}%;height:100%;background:var(--blue);border-radius:4px 0 0 4px;transition:width .55s cubic-bezier(.4,0,.2,1)"></div>
+          <div style="flex:1;height:100%;background:var(--amber);border-radius:0 4px 4px 0;transition:flex .55s cubic-bezier(.4,0,.2,1)"></div>
+        </div>
+        <div class="pb-note">貸款月付 ${fmt(moLoan)} 元（藍）＋隱性成本 ${fmt(Math.max(0,moCost-moLoan))} 元（折舊＋保修＋稅費，橘）= 真實月成本 ${fmt(moCost)} 元</div>
       </div>
       <div class="bars">
         ${bar('fill-red', depPct, '折舊（車價損失）', dep)}
@@ -1778,6 +1844,57 @@ function calcRV(){
   const buyPct = buyNet/Math.max(buyNet,rentNet)*100;
   const rentPct = rentNet/Math.max(buyNet,rentNet)*100;
 
+  // Year-by-year crossover chart
+  const _rvB=[],_rvR=[];
+  for(let y=0;y<=horizon;y++){
+    const fpY=price*Math.pow(1+app,y);
+    const pmY=Math.min(y*12,lm);
+    let rlY=mr>0?loan*Math.pow(1+mr,pmY)-moMortgage*(Math.pow(1+mr,pmY)-1)/mr:Math.max(0,loan-moMortgage*pmY);
+    _rvB.push(fpY-Math.max(0,rlY)-reno);
+    const dY=(down+reno)*Math.pow(1+inv,y);
+    const hmY2=y*12;
+    const exY=imr>0?moDiff*(Math.pow(1+imr,hmY2)-1)/imr:moDiff*hmY2;
+    _rvR.push(dY+exY);
+  }
+  let _crossY=null;
+  for(let y=1;y<=horizon;y++){
+    if((_rvB[y-1]<_rvR[y-1]&&_rvB[y]>=_rvR[y])||(_rvB[y-1]>_rvR[y-1]&&_rvB[y]<=_rvR[y])){_crossY=y;break;}
+  }
+  const _W3=420,_H3=130,_PL3=50,_PR3=16,_PT3=8,_PB3=26;
+  const _allRV=[..._rvB,..._rvR];
+  const _maxRV=Math.max(..._allRV);
+  const _minRV=Math.min(Math.min(..._allRV),0);
+  const _rngRV=_maxRV-_minRV||1;
+  const _cW3=_W3-_PL3-_PR3,_cH3=_H3-_PT3-_PB3;
+  const _xRV=y=>_PL3+(y/horizon)*_cW3;
+  const _yRV=v=>_PT3+_cH3-((v-_minRV)/_rngRV)*_cH3;
+  const _buyPath=_rvB.map((v,i)=>(i===0?'M':'L')+_xRV(i).toFixed(1)+','+_yRV(v).toFixed(1)).join(' ');
+  const _rentPath=_rvR.map((v,i)=>(i===0?'M':'L')+_xRV(i).toFixed(1)+','+_yRV(v).toFixed(1)).join(' ');
+  const _xSt3=horizon<=10?2:horizon<=20?5:10;
+  const _xM3=[];for(let y=_xSt3;y<horizon;y+=_xSt3)_xM3.push(y);_xM3.push(horizon);
+  const _xL3=_xM3.map(xm=>'<text x="'+_xRV(xm).toFixed(1)+'" y="'+(_H3-3)+'" text-anchor="middle" font-size="8" fill="var(--ink4)" font-family="IBM Plex Mono,monospace">'+xm+'年</text>').join('');
+  const _gL3=[0.25,0.5,0.75].map(t=>{
+    const gv=_minRV+_rngRV*t;
+    return '<line x1="'+_PL3+'" y1="'+_yRV(gv).toFixed(1)+'" x2="'+(_W3-_PR3)+'" y2="'+_yRV(gv).toFixed(1)+'" stroke="var(--line)" stroke-width=".5"/>'
+      +'<text x="'+(_PL3-5)+'" y="'+(_yRV(gv)+3.5).toFixed(1)+'" text-anchor="end" font-size="8" fill="var(--ink4)" font-family="IBM Plex Mono,monospace">'+fmtW(gv/10000)+'</text>';
+  }).join('');
+  const _crossMark=_crossY?'<line x1="'+_xRV(_crossY).toFixed(1)+'" y1="'+_PT3+'" x2="'+_xRV(_crossY).toFixed(1)+'" y2="'+(_H3-_PB3)+'" stroke="var(--line2)" stroke-width="1" stroke-dasharray="3 2"/>'+'<text x="'+_xRV(_crossY).toFixed(1)+'" y="'+(_PT3+9)+'" text-anchor="middle" font-size="7.5" fill="var(--ink3)" font-family="Noto Sans TC,sans-serif">第'+_crossY+'年交叉</text>':'';
+  const _crossGapLabel=_crossY?'<span class="chart-gap-label">（第 '+_crossY+' 年兩者交叉）</span>':'';
+  const _rvChartHTML='<div class="growth-wrap">'
+    +'<div class="chart-legend-row">'
+    +'<span class="clr-dot" style="background:var(--green)"></span>買房淨值'
+    +'<span class="clr-dot" style="background:var(--blue-md);margin-left:14px"></span>租屋＋投資淨值'
+    +_crossGapLabel+'</div>'
+    +'<svg viewBox="0 0 '+_W3+' '+_H3+'" class="growth-svg" aria-hidden="true">'
+    +_gL3
+    +_crossMark
+    +'<path d="'+_rentPath+'" fill="none" stroke="var(--blue-md)" stroke-width="1.5" stroke-dasharray="4 3"/>'
+    +'<path d="'+_buyPath+'" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+    +_xL3
+    +'<circle cx="'+_xRV(horizon).toFixed(1)+'" cy="'+_yRV(_rvB[horizon]).toFixed(1)+'" r="3.5" fill="var(--green)"/>'
+    +'<circle cx="'+_xRV(horizon).toFixed(1)+'" cy="'+_yRV(_rvR[horizon]).toFixed(1)+'" r="3" fill="var(--blue-md)"/>'
+    +'</svg></div>';
+
   $('rv-results').innerHTML = `
     <div class="results-panel">
       <p class="results-title">試算結果（${horizon} 年後）</p>
@@ -1793,6 +1910,7 @@ function calcRV(){
         ${bar(buyNet>rentNet?'fill-green':'fill-blue', buyPct, '買房淨值', buyNet)}
         ${bar(rentNet>buyNet?'fill-green':'fill-blue-lt', rentPct, '租屋+投資淨值', rentNet)}
       </div>
+      ${_rvChartHTML}
       <div class="insight ${buyNet>rentNet?'':'green'}">
         <strong>以此條件，${horizon} 年後${winner}財務結果較佳，差距約 ${fmtW(diff/10000)} 萬。</strong><br><br>
         買房月支出（房貸 ${fmt(moMortgage)} + 管理費 ${fmt(mgmt)} + 稅 ${fmt(Math.round(propTax))}）= <strong>${fmt(moBuyTotal)} 元</strong>，比月租多 <strong>${fmt(moBuyTotal-rent)} 元</strong>。
