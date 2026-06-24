@@ -231,10 +231,16 @@ select.inp{cursor:pointer;font-family:'Noto Sans TC',sans-serif;font-size:14px}
 .note{font-size:11.5px;color:var(--ink4);margin-top:0;line-height:1.7;padding:18px 28px 22px;border-top:1px solid var(--line);background:var(--card)}
 
 /* ── SEO SECTION ── */
-.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;margin-top:44px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-.info-card{background:var(--card);padding:26px}
-.info-card h3{font-size:14.5px;font-weight:900;letter-spacing:-.01em;color:var(--ink);margin-bottom:10px}
-.info-card p{font-size:13.5px;color:var(--ink3);line-height:1.7}
+.info-section-hd{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink4);margin:44px 0 14px;font-family:'Noto Sans TC',sans-serif}
+.info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.info-card{background:var(--card);padding:22px 24px 18px;cursor:pointer;transition:background .15s;display:flex;flex-direction:column}
+.info-card:hover{background:var(--card2)}
+.info-card-tag{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);background:var(--blue-lt);padding:2px 7px;border-radius:3px;margin-bottom:10px;font-family:'Noto Sans TC',sans-serif;align-self:flex-start}
+.info-card-stat{font-family:var(--mono);font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--blue);margin-bottom:5px;font-variant-numeric:tabular-nums;line-height:1.2}
+.info-card h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;letter-spacing:-.01em}
+.info-card p{font-size:12.5px;color:var(--ink3);line-height:1.65;flex:1;margin-bottom:12px}
+.info-card-link{font-size:11px;font-weight:700;color:var(--blue);align-self:flex-start;opacity:.75}
+.info-card:hover .info-card-link{opacity:1;text-decoration:underline}
 
 /* ── AD MID ── */
 .ad-mid{position:relative;background:var(--card2);border:1px solid var(--line);border-radius:var(--r);padding:20px 12px;text-align:center;font-size:11.5px;color:var(--ink4);margin:28px 0;min-height:52px;display:flex;align-items:center;justify-content:center;font-weight:500}
@@ -296,7 +302,8 @@ footer a:hover{color:var(--blue)}
   .note{padding:16px 18px 20px}
   .ad-wrap{padding:0 16px;margin-top:16px}
   .ad-mid{margin:20px 16px}
-  .info-grid{margin:36px 16px 0}
+  .info-section-hd{margin:36px 16px 12px}
+  .info-grid{margin:0 16px;grid-template-columns:repeat(2,1fr)}
 }
 
 /* ── THEME OVERRIDE ── */
@@ -1047,22 +1054,56 @@ html[data-theme="light"]{--ink:#16181d;--ink2:#3a3f4b;--ink3:#5a5f6b;--ink4:#8a8
   </div>
 
   <!-- SEO 說明 -->
+  <p class="info-section-hd">七大工具說明</p>
   <div class="info-grid">
-    <div class="info-card">
+    <div class="info-card" onclick="go('mortgage')">
+      <span class="info-card-tag">房貸</span>
+      <div class="info-card-stat">2.0–2.5%</div>
       <h3>房貸試算怎麼用？</h3>
-      <p>輸入貸款金額、利率和年限，即時算出月付金與總利息。進階功能可比較「提前還款」vs「拿頭期款去投資」哪個效益更高，這是銀行試算器不會告訴你的。</p>
+      <p>輸入貸款金額、利率和年限，即時算出月付金與總利息。進階功能比較「提前還款」vs「拿頭期款去投資」哪個效益更高，這是銀行試算器不會告訴你的。</p>
+      <span class="info-card-link">→ 試算房貸</span>
     </div>
-    <div class="info-card">
-      <h3>台灣所得稅怎麼計算？</h3>
+    <div class="info-card" onclick="go('salary')">
+      <span class="info-card-tag">跳槽加薪</span>
+      <div class="info-card-stat">帳面 ≠ 到手</div>
+      <h3>跳槽能多賺多少？</h3>
+      <p>帳面加薪扣掉通勤費差異、年終落差、年資損失，實際每月多拿的才是真正獲益。損益平衡點往往比你想的更晚到來。</p>
+      <span class="info-card-link">→ 試算跳槽收益</span>
+    </div>
+    <div class="info-card" onclick="go('tax')">
+      <span class="info-card-tag">所得稅</span>
+      <div class="info-card-stat">5%–40%</div>
+      <h3>台灣所得稅怎麼算？</h3>
       <p>依 115 年綜合所得稅規定，自動比較標準扣除（131,000元）與列舉扣除哪個更省稅，一鍵算出應繳稅額與有效稅率。</p>
+      <span class="info-card-link">→ 試算所得稅</span>
     </div>
-    <div class="info-card">
-      <h3>退休金要存多少才夠？</h3>
-      <p>以 65 歲退休、壽命 85 歲計算，退休後還有 20 年的生活費需要準備。輸入你的存款和每月儲蓄，算出缺口與每月需要多存多少。</p>
-    </div>
-    <div class="info-card">
-      <h3>買車到底要花多少錢？</h3>
+    <div class="info-card" onclick="go('car')">
+      <span class="info-card-tag">買車成本</span>
+      <div class="info-card-stat">折舊 40–60%</div>
+      <h3>買車到底要花多少？</h3>
       <p>車輛真實成本不只是貸款月付。折舊往往佔總成本 40–60%，新車第一年折舊最快。一台 80 萬的車，5 年下來實際花費往往超過 150 萬。</p>
+      <span class="info-card-link">→ 試算買車成本</span>
+    </div>
+    <div class="info-card" onclick="go('retire')">
+      <span class="info-card-tag">退休金</span>
+      <div class="info-card-stat">需 20 年費用</div>
+      <h3>退休金要存多少才夠？</h3>
+      <p>以 65 歲退休、壽命 85 歲計算，退休後還有 20 年生活費需要準備。含通膨調整與勞保月退，算出真正的缺口與每月需多存金額。</p>
+      <span class="info-card-link">→ 試算退休缺口</span>
+    </div>
+    <div class="info-card" onclick="go('rvb')">
+      <span class="info-card-tag">租 vs 買</span>
+      <div class="info-card-stat">機會成本</div>
+      <h3>租屋還是買房划算？</h3>
+      <p>頭期款 300 萬若拿去投資，複利效果不容忽視。此工具同時計算買房淨值與「租屋＋投資」淨值，逐年比較讓你看到完整數字。</p>
+      <span class="info-card-link">→ 試算租 vs 買</span>
+    </div>
+    <div class="info-card" onclick="go('stock')">
+      <span class="info-card-tag">股票投資</span>
+      <div class="info-card-stat">0% 資本利得稅</div>
+      <h3>股票投資稅後報酬怎麼算？</h3>
+      <p>台灣個人股票資本利得目前免稅，但股利有 28% 分離課稅或合併申報可選。加入補充保費與證交稅，算出真實稅後年化報酬率。</p>
+      <span class="info-card-link">→ 試算股票報酬</span>
     </div>
   </div>
 </main>
