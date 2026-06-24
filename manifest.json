@@ -1,0 +1,18 @@
+{
+  "name": "台灣免費財務計算工具集合站",
+  "short_name": "台灣財務計算",
+  "description": "房貸、所得稅、退休金、買車、租屋vs買房、加薪試算，完全免費不蒐集資料",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ecedef",
+  "theme_color": "#1a5faa",
+  "lang": "zh-TW",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231a5faa'/><text y='.9em' font-size='70' x='15'>🧮</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

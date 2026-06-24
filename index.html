@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台灣免費財務計算工具集合站 — 房貸、所得稅、退休金、買車、租買試算</title>
+<meta name="description" content="台灣最完整的免費財務計算工具：房貸試算、綜合所得稅計算、退休金缺口、買車總成本、租屋vs買房、跳槽加薪試算。所有計算在瀏覽器完成，不蒐集個人資料。">
+<meta name="keywords" content="房貸試算,所得稅試算,退休金計算,買車成本,租屋買房比較,加薪試算,台灣財務計算,免費計算工具">
+<meta property="og:title" content="台灣免費財務計算工具集合站">
+<meta property="og:description" content="六大財務計算器，幫你看清每一個財務決定的真實數字。完全免費，不蒐集資料。">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_TW">
+<link rel="canonical" href="https://twcalc.tw">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#1a5faa">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="台灣財務計算">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"台灣免費財務計算工具集合站","description":"台灣免費財務計算工具：房貸、所得稅、退休金、買車、租屋vs買房、加薪試算","url":"https://twcalc.tw","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"},"inLanguage":"zh-TW"}
+</script>
+<!-- Google AdSense -->
+<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:  #16181d;
+  --ink2: #3a3f4b;
+  --ink3: #5a5f6b;
+  --ink4: #8a8f9a;
+  --page: #ecedef;
+  --card: #ffffff;
+  --card2:#f6f6f7;
+  --line: #e4e5e8;
+  --line2:#d3d5da;
+  --blue:    #1a5faa;
+  --blue-lt: #e8f0f9;
+  --blue-md: #5f93cf;
+  --green:    #1f7a52;
+  --green-lt: #e2f1ea;
+  --amber:    #9a5a08;
+  --amber-lt: #fbf0df;
+  --red:    #a3261f;
+  --red-lt: #fbe9e7;
+  --mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+  --r:6px;
+  --r-sm:5px;
+  --shadow:    0 1px 2px rgba(20,24,40,.06),0 2px 8px rgba(20,24,40,.04);
+  --shadow-md: 0 1px 3px rgba(20,24,40,.10),0 14px 36px rgba(20,24,40,.07);
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --ink:#e6e7ea;--ink2:#b4bcc8;--ink3:#8b93a0;--ink4:#646c79;
+    --page:#0a0d12;--card:#141922;--card2:#10141c;--line:#222936;--line2:#2f3845;
+    --blue:#4a86d8;--blue-lt:#11243d;--blue-md:#3568a8;
+    --green:#2da876;--green-lt:#0c1f18;
+    --amber:#d08a2e;--amber-lt:#1e1407;
+    --red:#d8554a;--red-lt:#1f0d0c;
+    --shadow:    0 1px 3px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+    --shadow-md: 0 2px 8px rgba(0,0,0,.5),0 16px 40px rgba(0,0,0,.35);
+  }
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'Noto Sans TC',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--page);color:var(--ink);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:200;background:var(--card);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1020px;margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink);flex-shrink:0}
+.brand-icon{width:26px;height:26px;background:var(--blue);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0;flex-shrink:0}
+.brand-text{font-size:14px;font-weight:900;letter-spacing:-.02em;line-height:1.15}
+.brand-sub{font-size:10.5px;color:var(--ink4);font-weight:500;letter-spacing:.01em}
+.nav-pills{display:flex;gap:2px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+.nav-pills::-webkit-scrollbar{display:none}
+.nav-pill{white-space:nowrap;padding:6px 12px;border-radius:5px;font-size:12.5px;font-weight:500;color:var(--ink3);text-decoration:none;transition:all .12s;cursor:pointer;border:none;background:none;font-family:inherit}
+.nav-pill:hover{background:var(--card2);color:var(--ink)}
+.nav-pill.on{background:var(--blue);color:#fff;font-weight:700}
+
+/* ── HERO ── */
+.hero{background:var(--card);border-bottom:1px solid var(--line);padding:52px 24px 46px}
+.hero-inner{max-width:1020px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
+.hero-copy{flex:1;min-width:0}
+.hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:16px}
+.hero h1{font-size:clamp(26px,3.4vw,38px);font-weight:900;letter-spacing:-.025em;line-height:1.18;color:var(--ink);margin-bottom:14px}
+.hero-desc{font-size:15px;color:var(--ink3);max-width:480px;margin-bottom:22px;line-height:1.7}
+.hero-badges{display:flex;gap:8px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;background:var(--card2);border:1px solid var(--line);border-radius:99px;font-size:11.5px;font-weight:500;color:var(--ink3)}
+.badge-dot{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0}
+.hero-accent{flex-shrink:0;text-align:right;user-select:none;border-left:1px solid var(--line);padding-left:40px}
+.hero-accent-num{font-family:var(--mono);font-size:108px;font-weight:600;letter-spacing:-.04em;color:var(--blue);opacity:.1;line-height:.82;font-variant-numeric:tabular-nums}
+.hero-accent-label{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);margin-top:6px}
+@media(max-width:680px){.hero{padding:36px 20px 32px}.hero-inner{flex-direction:column;align-items:flex-start;gap:0}.hero-accent{display:none}}
+
+/* ── AD SLOT ── */
+.ad-wrap{max-width:1020px;margin:24px auto 0;padding:0 24px}
+.ad-box{position:relative;background:var(--card2);border:1px solid var(--line);border-radius:var(--r);padding:18px 12px;text-align:center;font-size:11.5px;color:var(--ink4);min-height:56px;display:flex;align-items:center;justify-content:center;font-weight:500}
+.ad-box::before,.ad-mid::before{content:'贊助';position:absolute;top:8px;left:12px;font-size:9px;font-weight:700;letter-spacing:.14em;color:var(--ink4);opacity:.7}
+
+/* ── MAIN LAYOUT ── */
+.wrap{max-width:1020px;margin:0 auto;padding:32px 24px 64px}
+
+/* ── TOOL TABS ── */
+.tool-grid{display:flex;gap:0;margin-bottom:0;background:var(--card);border:1px solid var(--line);border-bottom:none;border-radius:var(--r) var(--r) 0 0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tool-grid::-webkit-scrollbar{display:none}
+.tool-btn{flex:1;min-width:120px;flex-shrink:0;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:0;padding:15px 14px;border:none;border-radius:0;border-bottom:2px solid transparent;background:transparent;cursor:pointer;transition:background .12s,border-color .12s,color .12s;position:relative;overflow:visible}
+.tool-btn+.tool-btn{border-left:1px solid var(--line)}
+.tool-btn::after{display:none}
+.tool-btn:hover{background:var(--card2)}
+.tool-btn:active{background:var(--line)}
+.tool-btn.on{border-bottom-color:var(--blue);background:var(--card)}
+.tool-btn.on .tool-name{color:var(--blue)}
+.tool-emoji{display:none}
+.tool-name{font-size:13px;font-weight:500;color:var(--ink3);line-height:1;white-space:nowrap;transition:color .12s}
+.tool-desc{display:none}
+
+/* ── CALCULATOR SHELL ── */
+.calc-shell{background:var(--card);border:1px solid var(--line);border-radius:0 0 var(--r) var(--r);box-shadow:var(--shadow-md);overflow:hidden;margin-bottom:28px}
+.calc-header{padding:24px 28px 20px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.calc-title-row{display:flex;align-items:center;gap:8px}
+.calc-emoji{display:none}
+.calc-title{font-size:21px;font-weight:900;letter-spacing:-.02em;color:var(--ink)}
+.calc-subtitle{font-size:13.5px;color:var(--ink3);margin-top:7px;line-height:1.6;max-width:560px}
+
+/* ── LIVE ANSWER BAR ── */
+.live-bar{background:var(--card);color:var(--ink);padding:26px 28px;display:flex;align-items:stretch;flex-wrap:wrap;gap:0;min-height:96px;border-top:3px solid var(--blue);border-bottom:1px solid var(--line)}
+.live-bar.amber{border-top-color:var(--amber)}
+.live-bar.green{border-top-color:var(--green)}
+.live-item{display:flex;flex-direction:column;justify-content:center;gap:8px;padding:2px 40px 2px 0}
+.live-item:first-child .live-val{color:var(--blue)}
+.live-bar.amber .live-item:first-child .live-val{color:var(--amber)}
+.live-bar.green .live-item:first-child .live-val{color:var(--green)}
+.live-item+.live-item{padding-left:40px;border-left:1px solid var(--line)}
+.live-sep{display:none}
+.live-label{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);white-space:nowrap}
+.live-val{font-family:var(--mono);font-size:42px;font-weight:600;letter-spacing:-.03em;white-space:nowrap;font-variant-numeric:tabular-nums;line-height:1;color:var(--ink)}
+@media(max-width:640px){.live-bar{padding:20px;gap:18px}.live-val{font-size:30px}.live-item{padding:0!important;border-left:none!important;flex:1 0 40%}}
+
+/* ── FORM BODY ── */
+.calc-body{padding:28px;background:var(--card)}
+.form-cols{display:grid;grid-template-columns:1fr 1fr;gap:28px 44px}
+@media(max-width:640px){.form-cols{grid-template-columns:1fr;gap:28px}}
+.form-section{margin-bottom:6px}
+.form-section-label{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.field{margin-bottom:20px}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:13px;font-weight:500;color:var(--ink2);margin-bottom:7px}
+.field-hint{font-size:11.5px;color:var(--ink4);margin-top:6px;line-height:1.55;padding-left:11px;border-left:2px solid var(--line2)}
+.inp{width:100%;padding:11px 14px;border:1px solid var(--line2);border-radius:var(--r-sm);background:var(--card);color:var(--ink);font-size:16px;font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;transition:border-color .12s,box-shadow .12s;-webkit-appearance:none}
+.inp:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-lt);background:var(--card)}
+.inp:hover:not(:focus){border-color:var(--ink4)}
+select.inp{cursor:pointer;font-family:'Noto Sans TC',sans-serif;font-size:14px}
+
+/* ── RESULTS PANEL ── */
+.results-panel{background:var(--card2);border-top:1px solid var(--line);padding:28px}
+.results-title{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);margin-bottom:20px}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;margin-bottom:26px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
+.kpi{background:var(--card);padding:16px 18px}
+.kpi-label{font-size:10.5px;font-weight:500;letter-spacing:.02em;color:var(--ink4);margin-bottom:9px;line-height:1.4}
+.kpi-val{font-family:var(--mono);font-size:25px;font-weight:600;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums;color:var(--ink)}
+.kpi-val span{font-family:'Noto Sans TC',sans-serif;font-weight:500}
+.kpi-val.blue{color:var(--blue)}
+.kpi-val.amber{color:var(--amber)}
+.kpi-val.green{color:var(--green)}
+.kpi-val.red{color:var(--red)}
+.kpi-sub{font-size:11px;color:var(--ink4);margin-top:5px;font-weight:500}
+
+/* ── BAR CHART ── */
+.bars{margin-bottom:22px}
+.bar-row{margin-bottom:15px}
+.bar-row:last-child{margin-bottom:0}
+.bar-meta{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;color:var(--ink3);margin-bottom:7px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.bar-meta strong{font-weight:600;color:var(--ink2);font-family:'Noto Sans TC',sans-serif}
+.bar-track{height:11px;background:var(--line);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;border-radius:2px;transition:width .55s cubic-bezier(.4,0,.2,1)}
+.fill-blue{background:var(--blue)}
+.fill-blue-lt{background:var(--blue-md)}
+.fill-amber{background:var(--amber)}
+.fill-green{background:var(--green)}
+.fill-red{background:var(--red)}
+
+/* ── INSIGHT BOX ── */
+.insight{background:var(--blue-lt);border:none;border-left:3px solid var(--blue);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:18px 22px;font-size:14px;color:var(--ink2);line-height:1.85}
+.insight::before{content:'解讀';display:inline-block;font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--blue);margin-bottom:8px;padding:2px 0;display:block}
+.insight.amber{border-left-color:var(--amber);background:var(--amber-lt)}
+.insight.amber::before{content:'提醒';color:var(--amber)}
+.insight.green{border-left-color:var(--green);background:var(--green-lt)}
+.insight.green::before{content:'結論';color:var(--green)}
+.insight strong{font-weight:700;color:var(--ink)}
+.insight .num,.insight strong{font-variant-numeric:tabular-nums}
+
+/* ── COMPARISON TABLE ── */
+.cmp-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:14px;font-variant-numeric:tabular-nums;background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
+.cmp-table th{text-align:left;padding:10px 14px;background:var(--card2);border-bottom:1px solid var(--line);font-weight:700;color:var(--ink3);font-size:10px;text-transform:uppercase;letter-spacing:.08em}
+.cmp-table td{padding:11px 14px;border-bottom:1px solid var(--line);color:var(--ink2);font-family:var(--mono)}
+.cmp-table tr:last-child td{border-bottom:none}
+.cmp-table .num{font-weight:600;color:var(--ink)}
+.cmp-table .win{background:var(--green-lt);color:var(--green);font-weight:700;border-radius:3px;padding:2px 7px;font-size:10px;letter-spacing:.04em;white-space:nowrap;font-family:'Noto Sans TC',sans-serif}
+.cmp-table .row-highlight td{background:var(--blue-lt)}
+
+/* ── NOTE ── */
+.note{font-size:11.5px;color:var(--ink4);margin-top:0;line-height:1.7;padding:18px 28px 22px;border-top:1px solid var(--line);background:var(--card)}
+
+/* ── SEO SECTION ── */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;margin-top:44px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.info-card{background:var(--card);padding:26px}
+.info-card h3{font-size:14.5px;font-weight:900;letter-spacing:-.01em;color:var(--ink);margin-bottom:10px}
+.info-card p{font-size:13.5px;color:var(--ink3);line-height:1.7}
+
+/* ── AD MID ── */
+.ad-mid{position:relative;background:var(--card2);border:1px solid var(--line);border-radius:var(--r);padding:20px 12px;text-align:center;font-size:11.5px;color:var(--ink4);margin:28px 0;min-height:52px;display:flex;align-items:center;justify-content:center;font-weight:500}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--line);background:var(--card);padding:36px 24px;text-align:center}
+footer p{font-size:12.5px;color:var(--ink3);line-height:1.9;font-weight:400}
+footer a{color:var(--ink2);text-decoration:none;font-weight:500}
+footer a:hover{color:var(--blue)}
+.foot-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:14px;font-size:12.5px}
+
+/* ── PANEL SHOW/HIDE ── */
+.panel{display:none}
+.panel.on{display:block}
+
+/* ── UTIL ── */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ── ICON BUTTONS ── */
+.icon-btn{display:inline-flex;align-items:center;gap:4px;padding:7px 13px;border:1px solid var(--line2);border-radius:var(--r-sm);background:var(--card);color:var(--ink3);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .12s;white-space:nowrap;line-height:1}
+.icon-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-lt)}
+.icon-btn:active{transform:translateY(1px)}
+.hdr-actions{display:flex;gap:8px;flex-shrink:0;align-items:flex-start;margin-top:2px}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--page);padding:11px 22px;border-radius:8px;font-size:13px;font-weight:500;z-index:9999;opacity:0;transition:opacity .2s;pointer-events:none;box-shadow:var(--shadow-md)}
+.toast.show{opacity:1}
+
+/* ── MOBILE ── */
+@media(max-width:640px){
+  .nav-inner{padding:0 16px;height:52px}
+  .wrap{padding:18px 0 48px}
+  .tool-grid{display:flex;border:none;border-radius:0;background:transparent;box-shadow:none;gap:8px;padding:2px 16px 4px;overflow-x:auto}
+  .tool-btn{flex:0 0 auto;min-width:0;border:1px solid var(--line2);border-radius:99px;background:var(--card);padding:11px 18px;border-bottom:1px solid var(--line2)}
+  .tool-btn+.tool-btn{border-left:1px solid var(--line2)}
+  .tool-btn:hover{background:var(--card)}
+  .tool-btn.on{background:var(--blue);border-color:var(--blue);border-bottom-color:var(--blue)}
+  .tool-btn.on .tool-name{color:#fff;font-weight:700}
+  .calc-shell{border-radius:var(--r);margin:14px 16px 24px;overflow:visible}
+  .calc-header{padding:18px 18px 14px;flex-direction:column}
+  .hdr-actions{margin-top:10px}
+  .calc-title{font-size:18px}
+  .calc-subtitle{font-size:13px}
+  .live-bar{position:sticky;top:52px;z-index:150;padding:14px 18px;min-height:0;gap:0;flex-wrap:nowrap;overflow-x:auto;border-radius:0;box-shadow:var(--shadow-md)}
+  .live-bar::-webkit-scrollbar{display:none}
+  .live-item{flex:0 0 auto;padding:0 16px 0 0!important;gap:5px}
+  .live-item+.live-item{padding-left:16px!important;border-left:1px solid var(--line)!important}
+  .live-label{font-size:9.5px}
+  .live-val{font-size:24px}
+  .calc-body{padding:20px 18px}
+  .form-cols{grid-template-columns:1fr;gap:22px}
+  .inp{min-height:48px;font-size:16px;padding:13px 14px}
+  select.inp{min-height:48px}
+  .icon-btn{min-height:38px;padding:9px 14px}
+  .results-panel{padding:20px 18px}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .kpi-val{font-size:22px}
+  .insight{padding:16px 18px;font-size:13.5px}
+  .note{padding:16px 18px 20px}
+  .ad-wrap{padding:0 16px;margin-top:16px}
+  .ad-mid{margin:20px 16px}
+  .info-grid{margin:36px 16px 0}
+}
+
+/* ── THEME OVERRIDE ── */
+html[data-theme="dark"]{--ink:#e6e7ea;--ink2:#b4bcc8;--ink3:#8b93a0;--ink4:#646c79;--page:#0a0d12;--card:#141922;--card2:#10141c;--line:#222936;--line2:#2f3845;--blue:#4a86d8;--blue-lt:#11243d;--blue-md:#3568a8;--green:#2da876;--green-lt:#0c1f18;--amber:#d08a2e;--amber-lt:#1e1407;--red:#d8554a;--red-lt:#1f0d0c;--shadow:0 1px 3px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);--shadow-md:0 2px 8px rgba(0,0,0,.5),0 16px 40px rgba(0,0,0,.35)}
+html[data-theme="light"]{--ink:#16181d;--ink2:#3a3f4b;--ink3:#5a5f6b;--ink4:#8a8f9a;--page:#ecedef;--card:#ffffff;--card2:#f6f6f7;--line:#e4e5e8;--line2:#d3d5da;--blue:#1a5faa;--blue-lt:#e8f0f9;--blue-md:#5f93cf;--green:#1f7a52;--green-lt:#e2f1ea;--amber:#9a5a08;--amber-lt:#fbf0df;--red:#a3261f;--red-lt:#fbe9e7;--shadow:0 1px 2px rgba(20,24,40,.06),0 2px 8px rgba(20,24,40,.04);--shadow-md:0 1px 3px rgba(20,24,40,.10),0 14px 36px rgba(20,24,40,.07)}
+
+/* ── PRINT ── */
+@media print{
+  .nav,.hero,.ad-wrap,.ad-mid,.tool-grid,footer,.info-grid,.ad-box,.hdr-actions{display:none!important}
+  .panel{display:none!important}
+  .panel.on{display:block!important}
+  body{background:#fff!important}
+  .calc-shell{box-shadow:none!important;border:1px solid #ccc!important}
+  .live-bar,.bar-fill{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wrap{padding:0!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="主導覽">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <div class="brand-icon" aria-hidden="true">🧮</div>
+      <div>
+        <div class="brand-text">台灣財務計算</div>
+        <div class="brand-sub">免費 · 即時 · 不蒐集資料</div>
+      </div>
+    </a>
+    <nav class="nav-pills" aria-label="計算工具捷徑">
+      <button class="nav-pill on" onclick="go('mortgage')">房貸</button>
+      <button class="nav-pill" onclick="go('salary')">加薪</button>
+      <button class="nav-pill" onclick="go('tax')">所得稅</button>
+      <button class="nav-pill" onclick="go('car')">買車</button>
+      <button class="nav-pill" onclick="go('retire')">退休</button>
+      <button class="nav-pill" onclick="go('rvb')">租vs買</button>
+    </nav>
+    <button id="theme-btn" class="icon-btn" onclick="toggleTheme()" aria-label="切換深色/淺色模式" style="flex-shrink:0">深色</button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="hero-eyebrow">台灣免費財務計算工具集合站</p>
+      <h1>看清楚每一個<br>財務決定的真實數字</h1>
+      <p class="hero-desc">六大計算工具，覆蓋台灣人最常面對的財務問題。輸入即時計算，所有運算在你的瀏覽器完成。</p>
+      <div class="hero-badges">
+        <span class="badge"><span class="badge-dot"></span>完全免費</span>
+        <span class="badge"><span class="badge-dot"></span>不蒐集個資</span>
+        <span class="badge"><span class="badge-dot"></span>即時計算</span>
+        <span class="badge"><span class="badge-dot"></span>符合 115 年法規</span>
+      </div>
+    </div>
+    <div class="hero-accent" aria-hidden="true">
+      <div class="hero-accent-num">6</div>
+      <div class="hero-accent-label">大財務工具</div>
+    </div>
+  </div>
+</header>
+
+<!-- AdSense 頂部 728×90 -->
+<div class="ad-wrap">
+  <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+  <div class="ad-box">廣告位 — Google AdSense 頂部橫幅 (728×90)</div>
+</div>
+
+<main class="wrap" id="main">
+  <h2 class="sr-only">選擇計算工具</h2>
+
+  <!-- TOOL SELECTOR -->
+  <div class="tool-grid" role="tablist" aria-label="財務計算工具">
+    <button class="tool-btn on" id="btn-mortgage" role="tab" aria-selected="true" aria-controls="panel-mortgage" onclick="go('mortgage')">
+      <span class="tool-emoji">🏠</span>
+      <div class="tool-name">房貸試算</div>
+      <div class="tool-desc">月付、總利息、提前還款效益</div>
+    </button>
+    <button class="tool-btn" id="btn-salary" role="tab" aria-selected="false" aria-controls="panel-salary" onclick="go('salary')">
+      <span class="tool-emoji">💼</span>
+      <div class="tool-name">跳槽加薪</div>
+      <div class="tool-desc">扣除通勤年資的真實損益</div>
+    </button>
+    <button class="tool-btn" id="btn-tax" role="tab" aria-selected="false" aria-controls="panel-tax" onclick="go('tax')">
+      <span class="tool-emoji">🧾</span>
+      <div class="tool-name">所得稅試算</div>
+      <div class="tool-desc">標準 vs 列舉，哪種省？</div>
+    </button>
+    <button class="tool-btn" id="btn-car" role="tab" aria-selected="false" aria-controls="panel-car" onclick="go('car')">
+      <span class="tool-emoji">🚗</span>
+      <div class="tool-name">買車總成本</div>
+      <div class="tool-desc">折舊+油費+稅費真實月花費</div>
+    </button>
+    <button class="tool-btn" id="btn-retire" role="tab" aria-selected="false" aria-controls="panel-retire" onclick="go('retire')">
+      <span class="tool-emoji">🌅</span>
+      <div class="tool-name">退休金缺口</div>
+      <div class="tool-desc">每月需多存多少才夠退休</div>
+    </button>
+    <button class="tool-btn" id="btn-rvb" role="tab" aria-selected="false" aria-controls="panel-rvb" onclick="go('rvb')">
+      <span class="tool-emoji">⚖️</span>
+      <div class="tool-name">租屋 vs 買房</div>
+      <div class="tool-desc">含頭期款機會成本的比較</div>
+    </button>
+  </div>
+
+  <!-- ═══════════════ 房貸試算 ═══════════════ -->
+  <div class="panel on" id="panel-mortgage" role="tabpanel" aria-labelledby="btn-mortgage">
+    <section class="calc-shell" aria-labelledby="mortgage-title">
+      <div class="calc-header">
+        <div>
+          <div class="calc-title-row">
+            <span class="calc-emoji" aria-hidden="true">🏠</span>
+            <h2 class="calc-title" id="mortgage-title">房貸試算（進階版）</h2>
+          </div>
+          <p class="calc-subtitle">算出每月還款、總利息，並比較提前還款 vs 拿去投資哪個更划算，還有寬限期的真實代價</p>
+        </div>
+      </div>
+      <div class="live-bar" id="m-live" aria-live="polite">
+        <div class="live-item">
+          <span class="live-label">每月還款</span>
+          <span class="live-val" id="m-live-monthly">—</span>
+        </div>
+        <div class="live-item">
+          <span class="live-label">總利息</span>
+          <span class="live-val" id="m-live-interest">—</span>
+        </div>
+        <div class="live-item">
+          <span class="live-label">利息佔比</span>
+          <span class="live-val" id="m-live-pct">—</span>
+        </div>
+      </div>
+      <div class="calc-body">
+        <div class="form-cols">
+          <div>
+            <div class="form-section-label">貸款條件</div>
+            <div class="field">
+              <label for="m-amount">貸款金額（萬元）</label>
+              <input class="inp" type="number" id="m-amount" value="1000" min="0" step="50" oninput="calcM()">
+            </div>
+            <div class="field">
+              <label for="m-rate">年利率（%）</label>
+              <input class="inp" type="number" id="m-rate" value="2.0" min="0" step="0.05" oninput="calcM()">
+              <p class="field-hint">2024 年台灣房貸利率約 2.0–2.5%</p>
+            </div>
+            <div class="field">
+              <label for="m-years">貸款年限（年）</label>
+              <input class="inp" type="number" id="m-years" value="30" min="1" max="40" oninput="calcM()">
+            </div>
+            <div class="field">
+              <label for="m-grace">寬限期（年，期間只還利息）</label>
+              <input class="inp" type="number" id="m-grace" value="0" min="0" max="5" oninput="calcM()">
+              <p class="field-hint">寬限期結束後月付會大幅跳升，謹慎評估</p>
+            </div>
+            <div class="field">
+              <label for="m-method">還款方式</label>
+              <select class="inp" id="m-method" oninput="calcM()">
+                <option value="pi">本息平均攤還（等額攤還）</option>
+                <option value="pp">本金平均攤還（等額本金）</option>
+              </select>
+              <p class="field-hint">等額本金首月較高，但總利息較省</p>
+            </div>
+          </div>
+          <div>
+            <div class="form-section-label">提前還款 vs 投資比較</div>
+            <div class="field">
+              <label for="m-prepay">每年額外還款（萬元）</label>
+              <input class="inp" type="number" id="m-prepay" value="0" min="0" oninput="calcM()">
+            </div>
+            <div class="field">
+              <label for="m-cash">手邊可投資資金（萬元）</label>
+              <input class="inp" type="number" id="m-cash" value="200" min="0" oninput="calcM()">
+            </div>
+            <div class="field">
+              <label for="m-invest">預期年投資報酬率（%）</label>
+              <input class="inp" type="number" id="m-invest" value="6" min="0" step="0.5" oninput="calcM()">
+              <p class="field-hint">台股 ETF（0050）長期約 7–9%；保守估算用 5%</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="results-panel" id="m-results"></div>
+      <p class="note" style="padding:0 24px 16px">※ 支援本息平均攤還（等額攤還）與本金平均攤還（等額本金）兩種方式。試算結果僅供參考，實際條件以銀行核定為準。</p>
+    </section>
+    <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+    <div class="ad-mid">廣告位 — Google AdSense 工具下方</div>
+  </div>
+
+  <!-- ═══════════════ 跳槽加薪 ═══════════════ -->
+  <div class="panel" id="panel-salary" role="tabpanel" aria-labelledby="btn-salary">
+    <section class="calc-shell" aria-labelledby="salary-title">
+      <div class="calc-header">
+        <div>
+          <div class="calc-title-row">
+            <span class="calc-emoji" aria-hidden="true">💼</span>
+            <h2 class="calc-title" id="salary-title">跳槽加薪試算</h2>
+          </div>
+          <p class="calc-subtitle">帳面加薪不等於實際獲益。含通勤費、年終差異、年資損失，算出真正的損益平衡點</p>
+        </div>
+      </div>
+      <div class="live-bar" id="s-live" aria-live="polite">
+        <div class="live-item">
+          <span class="live-label">每月淨增加</span>
+          <span class="live-val" id="s-live-net">—</span>
+        </div>
+        <div class="live-item">
+          <span class="live-label">漲幅</span>
+          <span class="live-val" id="s-live-pct">—</span>
+        </div>
+        <div class="live-item">
+          <span class="live-label">損益平衡</span>
+          <span class="live-val" id="s-live-break">—</span>
+        </div>
+      </div>
+      <div class="calc-body">
+        <div class="form-cols">
+          <div>
+            <div class="form-section-label">薪資比較</div>
+            <div class="field">
+              <label for="s-cur">目前月薪（元）</label>
+              <input class="inp" type="number" id="s-cur" value="45000" min="0" oninput="calcS()">
+            </div>
+            <div class="field">
+              <label for="s-new">新工作月薪（元）</label>
+              <input class="inp" type="number" id="s-new" value="55000" min="0" oninput="calcS()">
+            </div>
+            <div class="field">
+              <label for="s-commute">每月通勤費增減（元）</label>
+              <input class="inp" type="number" id="s-commute" value="0" oninput="calcS()">
+              <p class="field-hint">新工作通勤較貴填正數，較省填負數</p>
+            </div>
+            <div class="field">
+              <label for="s-other">其他每月隱性成本（元）</label>
+              <input class="inp" type="number" id="s-other" value="0" oninput="calcS()">
+              <p class="field-hint">如停車費差異、午餐費差異等</p>
+            </div>
+          </div>
+          <div>
+            <div class="form-section-label">年終與年資</div>
+            <div class="field">
+              <label for="s-curbonus">目前公司年終（月數）</label>
+              <input class="inp" type="number" id="s-curbonus" value="1.5" min="0" step="0.5" oninput="calcS()">
+            </div>
+            <div class="field">
+              <label for="s-newbonus">新公司年終（月數）</label>
+              <input class="inp" type="number" id="s-newbonus" value="1.5" min="0" step="0.5" oninput="calcS()">
+            </div>
+            <div class="field">
+              <label for="s-seniority">目前年資（年）</label>
+              <input class="inp" type="number" id="s-seniority" value="3" min="0" oninput="calcS()">
+            </div>
+            <div class="field">
+              <label for="s-losesen">跳槽後年資歸零？</label>
+              <select class="inp" id="s-losesen" oninput="calcS()">
+                <option value="1">是（需重新累積特休等福利）</option>
+                <option value="0">否（年資可併計）</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="results-panel" id="s-results"></div>
+    </section>
+    <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+    <div class="ad-mid">廣告位 — Google AdSense 工具下方</div>
+  </div>
+
+  <!-- ═══════════════ 所得稅 ═══════════════ -->
+  <div class="panel" id="panel-tax" role="tabpanel" aria-labelledby="btn-tax">
+    <section class="calc-shell" aria-labelledby="tax-title">
+      <div class="calc-header">
+        <div>
+          <div class="calc-title-row">
+            <span class="calc-emoji" aria-hidden="true">🧾</span>
+            <h2 class="calc-title" id="tax-title">綜合所得稅試算</h2>
+          </div>
+          <p class="calc-subtitle">依 2026 年（115年）稅率計算，自動比較標準扣除與列舉扣除哪種更省，告訴你真正要繳多少</p>
+        </div>
+      </div>
+      <div class="live-bar amber" id="t-live" aria-live="polite">
+        <div class="live-item">
+          <span class="live-label">應繳稅額</span>
+          <span class="live-val" id="t-live-tax">—</span>
+        </div>
+        <div class="live-item">
+          <span class="live-label">有效稅率</span>
+          <span class="live-val" id="t-live-rate">—</span>
+        </div>
+        <div class="live-item">
+          <span class="live-label">稅後月收</span>
+          <span class="live-val" id="t-live-after">—</span>
+        </div>
+      </div>
+      <div class="calc-body">
+        <div class="form-cols">
+          <div>
+            <div class="form-section-label">所得資料</div>
+            <div class="field">
+              <label for="t-status">婚姻狀況</label>
+              <select class="inp" id="t-status" oninput="calcT()">
+                <option value="single">單身申報</option>
+                <option value="married">已婚合併申報（標準扣除額 262,000）</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="t-salary">全年薪資所得（元）</label>
+              <input class="inp" type="number" id="t-salary" value="600000" min="0" oninput="calcT()">
+              <p class="field-hint">月薪 × 12，年終獎金另填</p>
+            </div>
+            <div class="field">
+              <label for="t-bonus">全年年終獎金（元）</label>
+              <input class="inp" type="number" id="t-bonus" value="90000" min="0" oninput="calcT()">
+            </div>
+            <div class="field">
+              <label for="t-other">其他所得（利息、股利等，元）</label>
+              <input class="inp" type="number" id="t-other" value="0" min="0" oninput="calcT()">
+            </div>
+            <div class="field">
+              <label for="t-deps">扶養親屬人數（不含本人）</label>
+              <input class="inp" type="number" id="t-deps" value="0" min="0" max="10" oninput="calcT()">
+            </div>
+            <div class="field">
+              <label for="t-disabled">本人或撫養者有身障/重大傷病</label>
+              <select class="inp" id="t-disabled" oninput="calcT()">
+                <option value="0">無</option>
+                <option value="1">有（本人）</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <div class="form-section-label">列舉扣除（任意填寫）</div>
+            <div class="field">
+              <label for="t-ins">人身保險費（元/年）</label>
+              <input class="inp" type="number" id="t-ins" value="0" min="0" oninput="calcT()">
+              <p class="field-hint">每人上限 24,000 元</p>
+            </div>
+            <div class="field">
+              <label for="t-health">全民健保費（元/年）</label>
+              <input class="inp" type="number" id="t-health" value="0" min="0" oninput="calcT()">
+              <p class="field-hint">無上限</p>
+            </div>
+            <div class="field">
+              <label for="t-rent">房租支出（元/年）</label>
+              <input class="inp" type="number" id="t-rent" value="0" min="0" oninput="calcT()">
+              <p class="field-hint">上限 180,000 元（需有租賃契約）</p>
+            </div>
+            <div class="field">
+              <label for="t-donate">捐贈支出（元/年）</label>
+              <input class="inp" type="number" id="t-donate" value="0" min="0" oninput="calcT()">
+              <p class="field-hint">一般捐贈上限所得額 20%</p>
+            </div>
+            <div class="field">
+              <label for="t-medical">醫療費用（元/年）</label>
+              <input class="inp" type="number" id="t-medical" value="0" min="0" oninput="calcT()">
+              <p class="field-hint">需醫療院所單據</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="results-panel" id="t-results"></div>
+      <p class="note" style="padding:0 24px 16px">※ 115年：免稅額每人97,000元；薪資扣除額上限218,000元；標準扣除額單身131,000元、已婚262,000元；所得稅率5–40%。股利可選合併計稅（享8.5%可抵稅上限80,000元）或分開課稅（28%），本工具採合併計稅。</p>
+    </section>
+    <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+    <div class="ad-mid">廣告位 — Google AdSense 工具下方</div>
+  </div>
+
+  <!-- ═══════════════ 買車 ═══════════════ -->
+  <div class="panel" id="panel-car" role="tabpanel" aria-labelledby="btn-car">
+    <section class="calc-shell" aria-labelledby="car-title">
+      <div class="calc-header">
+        <div>
+          <div class="calc-title-row">
+            <span class="calc-emoji" aria-hidden="true">🚗</span>
+            <h2 class="calc-title" id="car-title">買車總持有成本</h2>
+          </div>
+          <p class="calc-subtitle">揭露折舊、貸款利息、油費、停車費、保險、稅費的真實每月成本。大多數人只看貸款月付，忽略了最大的隱形支出</p>
+        </div>
+      </div>
+      <div class="live-bar amber" id="c-live" aria-live="polite">
+        <div class="live-item">
+          <span class="live-label">每月真實成本</span>
+          <span class="live-val" id="c-live-mo">—</span>
+        </div>
+        <div class="live-item">
+          <span class="live-label">N年總花費</span>
+          <span class="live-val" id="c-live-total">—</span>
+        </div>
+        <div class="live-item">
+          <span class="live-label">最大成本</span>
+          <span class="live-val" id="c-live-top">—</span>
+        </div>
+      </div>
+      <div class="calc-body">
+        <div class="form-cols">
+          <div>
+            <div class="form-section-label">購車條件</div>
+            <div class="field">
+              <label for="c-price">車輛購入價格（萬元）</label>
+              <input class="inp" type="number" id="c-price" value="80" min="0" oninput="calcC()">
+            </div>
+            <div class="field">
+              <label for="c-type">車輛類型</label>
+              <select class="inp" id="c-type" oninput="calcC()">
+                <option value="gas">燃油車（1600cc 以下）</option>
+                <option value="gas2">燃油車（1601–2400cc）</option>
+                <option value="ev">電動車（免牌照稅）</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="c-loan">貸款年數（0 = 全額現金）</label>
+              <input class="inp" type="number" id="c-loan" value="5" min="0" max="7" oninput="calcC()">
+            </div>
+            <div class="field">
+              <label for="c-lrate">貸款年利率（%）</label>
+              <input class="inp" type="number" id="c-lrate" value="2.5" min="0" step="0.1" oninput="calcC()">
+            </div>
+            <div class="field">
+              <label for="c-hold">預計持有年數</label>
+              <input class="inp" type="number" id="c-hold" value="5" min="1" max="20" oninput="calcC()">
+            </div>
+            <div class="field">
+              <label for="c-resale">預估轉售價格（萬元）</label>
+              <input class="inp" type="number" id="c-resale" value="30" min="0" oninput="calcC()">
+              <p class="field-hint">新車 5 年後約剩原價 35–50%；中古車保值性較高</p>
+            </div>
+          </div>
+          <div>
+            <div class="form-section-label">每月/每年支出</div>
+            <div class="field">
+              <label for="c-fuel">每月油費 / 電費（元）</label>
+              <input class="inp" type="number" id="c-fuel" value="3000" min="0" oninput="calcC()">
+              <p class="field-hint">電動車電費約燃油的 1/3–1/4</p>
+            </div>
+            <div class="field">
+              <label for="c-park">每月停車費（元）</label>
+              <input class="inp" type="number" id="c-park" value="3000" min="0" oninput="calcC()">
+            </div>
+            <div class="field">
+              <label for="c-ins">年保險費（元）</label>
+              <input class="inp" type="number" id="c-ins" value="25000" min="0" oninput="calcC()">
+              <p class="field-hint">強制險+任意險，新車約 2–4 萬/年</p>
+            </div>
+            <div class="field">
+              <label for="c-repair">年保養修繕費（元）</label>
+              <input class="inp" type="number" id="c-repair" value="15000" min="0" oninput="calcC()">
+              <p class="field-hint">定期保養約 5,000–10,000；老車較高</p>
+            </div>
+            <div class="field">
+              <label for="c-ticket">年罰單/雜費（元）</label>
+              <input class="inp" type="number" id="c-ticket" value="2000" min="0" oninput="calcC()">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="results-panel" id="c-results"></div>
+      <p class="note" style="padding:0 24px 16px">※ 牌照稅：1600cc以下 7,120元/年；1601–2400cc 11,230元/年；電動車免徵。燃料費：汽車 4,800元/年；電動車免徵。</p>
+    </section>
+    <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+    <div class="ad-mid">廣告位 — Google AdSense 工具下方</div>
+  </div>
+
+  <!-- ═══════════════ 退休金 ═══════════════ -->
+  <div class="panel" id="panel-retire" role="tabpanel" aria-labelledby="btn-retire">
+    <section class="calc-shell" aria-labelledby="retire-title">
+      <div class="calc-header">
+        <div>
+          <div class="calc-title-row">
+            <span class="calc-emoji" aria-hidden="true">🌅</span>
+            <h2 class="calc-title" id="retire-title">退休金缺口計算器</h2>
+          </div>
+          <p class="calc-subtitle">台灣人平均壽命 83 歲，退休後可能還有 20 年的生活費。算出你的缺口，找出每月需要多存多少</p>
+        </div>
+      </div>
+      <div class="live-bar" id="r-live" aria-live="polite">
+        <div class="live-item">
+          <span class="live-label">退休時資產</span>
+          <span class="live-val" id="r-live-assets">—</span>
+        </div>
+        <div class="live-item">
+          <span class="live-label">缺口</span>
+          <span class="live-val" id="r-live-gap">—</span>
+        </div>
+        <div class="live-item">
+          <span class="live-label">每月需多存</span>
+          <span class="live-val" id="r-live-extra">—</span>
+        </div>
+      </div>
+      <div class="calc-body">
+        <div class="form-cols">
+          <div>
+            <div class="form-section-label">個人資料</div>
+            <div class="field">
+              <label for="r-age">目前年齡</label>
+              <input class="inp" type="number" id="r-age" value="35" min="20" max="70" oninput="calcR()">
+            </div>
+            <div class="field">
+              <label for="r-retage">預計退休年齡</label>
+              <input class="inp" type="number" id="r-retage" value="65" min="50" max="75" oninput="calcR()">
+            </div>
+            <div class="field">
+              <label for="r-life">預計壽命</label>
+              <input class="inp" type="number" id="r-life" value="85" min="70" max="105" oninput="calcR()">
+              <p class="field-hint">台灣男性平均壽命約 77 歲，女性約 83 歲</p>
+            </div>
+            <div class="field">
+              <label for="r-exp">退休後每月生活費（元）</label>
+              <input class="inp" type="number" id="r-exp" value="40000" min="0" oninput="calcR()">
+              <p class="field-hint">一般建議為退休前月收入的 70–80%</p>
+            </div>
+            <div class="field">
+              <label for="r-inflation">通膨率（%）</label>
+              <input class="inp" type="number" id="r-inflation" value="2" min="0" step="0.5" oninput="calcR()">
+              <p class="field-hint">台灣近年通膨約 2–3%</p>
+            </div>
+          </div>
+          <div>
+            <div class="form-section-label">目前資產與收入</div>
+            <div class="field">
+              <label for="r-save">目前總存款（萬元）</label>
+              <input class="inp" type="number" id="r-save" value="50" min="0" oninput="calcR()">
+            </div>
+            <div class="field">
+              <label for="r-monthly">每月儲蓄金額（元）</label>
+              <input class="inp" type="number" id="r-monthly" value="10000" min="0" oninput="calcR()">
+            </div>
+            <div class="field">
+              <label for="r-ret">預期年投資報酬率（%）</label>
+              <input class="inp" type="number" id="r-ret" value="5" min="0" step="0.5" oninput="calcR()">
+              <p class="field-hint">保守：3%（定存）；穩健：5–7%（ETF）</p>
+            </div>
+            <div class="field">
+              <label for="r-pension">預估勞保月退金額（元）</label>
+              <input class="inp" type="number" id="r-pension" value="15000" min="0" oninput="calcR()">
+              <p class="field-hint">可至勞保局官網查詢個人預估月退金額</p>
+            </div>
+            <div class="field">
+              <label for="r-other">其他退休收入（月，元）</label>
+              <input class="inp" type="number" id="r-other" value="0" min="0" oninput="calcR()">
+              <p class="field-hint">如房租收入、副業、父母留予資產等</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="results-panel" id="r-results"></div>
+      <p class="note" style="padding:0 24px 16px">※ 退休後生活費已依通膨調整為退休當年幣值。實際勞保月退金額請至勞動部勞工保險局官網試算。</p>
+    </section>
+    <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+    <div class="ad-mid">廣告位 — Google AdSense 工具下方</div>
+  </div>
+
+  <!-- ═══════════════ 租 vs 買 ═══════════════ -->
+  <div class="panel" id="panel-rvb" role="tabpanel" aria-labelledby="btn-rvb">
+    <section class="calc-shell" aria-labelledby="rvb-title">
+      <div class="calc-header">
+        <div>
+          <div class="calc-title-row">
+            <span class="calc-emoji" aria-hidden="true">⚖️</span>
+            <h2 class="calc-title" id="rvb-title">租屋 vs 買房試算</h2>
+          </div>
+          <p class="calc-subtitle">考慮頭期款的機會成本，N 年後哪個財務結果更好？這個問題沒有標準答案，取決於你的數字</p>
+        </div>
+      </div>
+      <div class="live-bar green" id="rv-live" aria-live="polite">
+        <div class="live-item">
+          <span class="live-label">買房月支出</span>
+          <span class="live-val" id="rv-live-buy">—</span>
+        </div>
+        <div class="live-item">
+          <span class="live-label">N年後買房淨值</span>
+          <span class="live-val" id="rv-live-buynet">—</span>
+        </div>
+        <div class="live-item">
+          <span class="live-label">N年後租屋淨值</span>
+          <span class="live-val" id="rv-live-rentnet">—</span>
+        </div>
+      </div>
+      <div class="calc-body">
+        <div class="form-cols">
+          <div>
+            <div class="form-section-label">買房條件</div>
+            <div class="field">
+              <label for="rv-price">房屋總價（萬元）</label>
+              <input class="inp" type="number" id="rv-price" value="1500" min="0" oninput="calcRV()">
+            </div>
+            <div class="field">
+              <label for="rv-down">頭期款（萬元）</label>
+              <input class="inp" type="number" id="rv-down" value="300" min="0" oninput="calcRV()">
+            </div>
+            <div class="field">
+              <label for="rv-mrate">貸款年利率（%）</label>
+              <input class="inp" type="number" id="rv-mrate" value="2.0" min="0" step="0.05" oninput="calcRV()">
+            </div>
+            <div class="field">
+              <label for="rv-myears">貸款年限（年）</label>
+              <input class="inp" type="number" id="rv-myears" value="30" min="5" max="40" oninput="calcRV()">
+            </div>
+            <div class="field">
+              <label for="rv-mgmt">管理費（元/月）</label>
+              <input class="inp" type="number" id="rv-mgmt" value="3000" min="0" oninput="calcRV()">
+            </div>
+            <div class="field">
+              <label for="rv-app">預估年房價漲幅（%）</label>
+              <input class="inp" type="number" id="rv-app" value="2" step="0.5" oninput="calcRV()">
+              <p class="field-hint">台灣近年均約 3–5%，保守估算用 2%</p>
+            </div>
+          </div>
+          <div>
+            <div class="form-section-label">租屋條件</div>
+            <div class="field">
+              <label for="rv-rent">每月租金（元）</label>
+              <input class="inp" type="number" id="rv-rent" value="25000" min="0" oninput="calcRV()">
+            </div>
+            <div class="field">
+              <label for="rv-rrise">年租金漲幅（%）</label>
+              <input class="inp" type="number" id="rv-rrise" value="2" step="0.5" oninput="calcRV()">
+            </div>
+            <div class="field">
+              <label for="rv-inv">頭期款投資年報酬率（%）</label>
+              <input class="inp" type="number" id="rv-inv" value="6" min="0" step="0.5" oninput="calcRV()">
+              <p class="field-hint">若選擇租屋，頭期款拿去投資的年化報酬</p>
+            </div>
+            <div class="field">
+              <label for="rv-horizon">比較年數</label>
+              <input class="inp" type="number" id="rv-horizon" value="20" min="5" max="40" oninput="calcRV()">
+            </div>
+            <div class="field">
+              <label for="rv-reno">買房裝潢費（萬元）</label>
+              <input class="inp" type="number" id="rv-reno" value="50" min="0" oninput="calcRV()">
+              <p class="field-hint">新成屋約 30–80 萬；預售屋客變另計</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="results-panel" id="rv-results"></div>
+      <p class="note" style="padding:0 24px 16px">※ 買房含地價稅（0.2%/年估算）、房屋稅（0.6%/年估算）、裝潢費（一次性）。不含仲介費（約成交價 2%）、代書費。此為財務面試算，居住穩定性、裝潢自由、生活品質等非財務因素請自行納入考量。</p>
+    </section>
+    <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+    <div class="ad-mid">廣告位 — Google AdSense 工具下方</div>
+  </div>
+
+  <!-- SEO 說明 -->
+  <div class="info-grid">
+    <div class="info-card">
+      <h3>房貸試算怎麼用？</h3>
+      <p>輸入貸款金額、利率和年限，即時算出月付金與總利息。進階功能可比較「提前還款」vs「拿頭期款去投資」哪個效益更高，這是銀行試算器不會告訴你的。</p>
+    </div>
+    <div class="info-card">
+      <h3>台灣所得稅怎麼計算？</h3>
+      <p>依 115 年綜合所得稅規定，自動比較標準扣除（131,000元）與列舉扣除哪個更省稅，一鍵算出應繳稅額與有效稅率。</p>
+    </div>
+    <div class="info-card">
+      <h3>退休金要存多少才夠？</h3>
+      <p>以 65 歲退休、壽命 85 歲計算，退休後還有 20 年的生活費需要準備。輸入你的存款和每月儲蓄，算出缺口與每月需要多存多少。</p>
+    </div>
+    <div class="info-card">
+      <h3>買車到底要花多少錢？</h3>
+      <p>車輛真實成本不只是貸款月付。折舊往往佔總成本 40–60%，新車第一年折舊最快。一台 80 萬的車，5 年下來實際花費往往超過 150 萬。</p>
+    </div>
+  </div>
+</main>
+
+<!-- AdSense 頁尾 -->
+<div style="max-width:1020px;margin:0 auto;padding:0 20px 24px">
+  <div class="ad-box">廣告位 — Google AdSense 頁尾橫幅 (728×90)</div>
+</div>
+
+<footer>
+  <p style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px">台灣免費財務計算工具集合站</p>
+  <p>所有計算在你的瀏覽器完成，不蒐集任何個人資料 · 完全免費使用</p>
+  <p style="margin-top:6px;font-size:12px">試算結果僅供參考，不構成財務、投資或法律建議。重要財務決策請諮詢專業人士。</p>
+  <div class="foot-links">
+    <a href="#" onclick="go('mortgage');return false">房貸試算</a>
+    <a href="#" onclick="go('salary');return false">跳槽加薪</a>
+    <a href="#" onclick="go('tax');return false">所得稅試算</a>
+    <a href="#" onclick="go('car');return false">買車成本</a>
+    <a href="#" onclick="go('retire');return false">退休金缺口</a>
+    <a href="#" onclick="go('rvb');return false">租屋vs買房</a>
+  </div>
+</footer>
+
+<div id="toast" class="toast" aria-live="assertive"></div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const v = id => parseFloat($(id).value) || 0;
+const vi = id => parseInt($(id).value) || 0;
+const vs = id => $(id).value;
+function fmt(n){ return Math.round(n).toLocaleString('zh-TW') }
+function fmtW(n){ return (Math.round(n*10)/10).toLocaleString('zh-TW') }
+function pct(n){ return (Math.round(n*10)/10) }
+function bar(fill,pctVal,label,amt){
+  return `<div class="bar-row"><div class="bar-meta"><strong>${label}</strong><span>${fmt(amt)} 元（${Math.round(pctVal)}%）</span></div><div class="bar-track"><div class="bar-fill ${fill}" style="width:${Math.min(100,Math.max(0,Math.round(pctVal)))}%"></div></div></div>`
+}
+
+/* ── 工具輸入 ID 對照表 ── */
+const toolInputIds = {
+  mortgage: ['m-amount','m-rate','m-years','m-grace','m-prepay','m-cash','m-invest','m-method'],
+  salary:   ['s-cur','s-new','s-commute','s-other','s-curbonus','s-newbonus','s-seniority','s-losesen'],
+  tax:      ['t-salary','t-bonus','t-other','t-deps','t-disabled','t-ins','t-health','t-rent','t-donate','t-medical','t-status'],
+  car:      ['c-price','c-type','c-loan','c-lrate','c-hold','c-resale','c-fuel','c-park','c-ins','c-repair','c-ticket'],
+  retire:   ['r-age','r-retage','r-life','r-exp','r-inflation','r-save','r-monthly','r-ret','r-pension','r-other'],
+  rvb:      ['rv-price','rv-down','rv-mrate','rv-myears','rv-mgmt','rv-app','rv-rent','rv-rrise','rv-inv','rv-horizon','rv-reno']
+};
+
+/* ── 工具切換 ── */
+const tools = ['mortgage','salary','tax','car','retire','rvb'];
+let currentTool = 'mortgage';
+
+function go(name, silent){
+  currentTool = name;
+  tools.forEach(t=>{
+    $('btn-'+t).classList.toggle('on', t===name);
+    $('btn-'+t).setAttribute('aria-selected', t===name);
+    $('panel-'+t).classList.toggle('on', t===name);
+    document.querySelectorAll('.nav-pill').forEach((p,i)=>{
+      p.classList.toggle('on', tools[i]===name);
+    });
+  });
+  if(!silent) $('panel-'+name).scrollIntoView({behavior:'smooth',block:'start'});
+  ({mortgage:calcM,salary:calcS,tax:calcT,car:calcC,retire:calcR,rvb:calcRV})[name]?.();
+}
+
+/* ── 分享結果 ── */
+function shareResult(){
+  const ids = toolInputIds[currentTool];
+  const params = new URLSearchParams();
+  params.set('t', currentTool);
+  ids.forEach(id=>{ const el=$(id); if(el) params.set(id, el.value); });
+  const url = location.origin + location.pathname + '?' + params.toString();
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(url).then(()=>showToast('連結已複製！分享給朋友吧 🎉'), ()=>fallbackCopy(url));
+  } else { fallbackCopy(url); }
+}
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  try{ document.execCommand('copy'); showToast('連結已複製！分享給朋友吧 🎉'); }
+  catch(e){ showToast('請手動複製網址列連結'); }
+  document.body.removeChild(ta);
+}
+
+/* ── Toast ── */
+let toastTimer;
+function showToast(msg){
+  const el = $('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>el.classList.remove('show'), 2500);
+}
+
+/* ── localStorage ── */
+function saveToStorage(){
+  try{
+    const data = {};
+    Object.values(toolInputIds).flat().forEach(id=>{ const el=$(id); if(el) data[id]=el.value; });
+    localStorage.setItem('twcalc_inputs', JSON.stringify(data));
+  }catch(e){}
+}
+function loadFromStorage(){
+  try{
+    const data = JSON.parse(localStorage.getItem('twcalc_inputs')||'{}');
+    Object.entries(data).forEach(([id,val])=>{ const el=$(id); if(el) el.value=val; });
+  }catch(e){}
+}
+document.addEventListener('input', saveToStorage);
+
+/* ── URL 參數載入（分享連結）── */
+function loadFromURL(){
+  const params = new URLSearchParams(location.search);
+  if(!params.has('t')) return false;
+  const tool = params.get('t');
+  if(!tools.includes(tool)) return false;
+  currentTool = tool;
+  params.forEach((val,key)=>{ if(key==='t') return; const el=$(key); if(el) el.value=val; });
+  return true;
+}
+
+/* ── 深/淺色模式 ── */
+function toggleTheme(){
+  const html = document.documentElement;
+  const curr = html.getAttribute('data-theme') ||
+    (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+  const next = curr==='dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('twcalc_theme', next);
+  $('theme-btn').textContent = next==='dark' ? '淺色' : '深色';
+}
+function initTheme(){
+  const saved = localStorage.getItem('twcalc_theme');
+  const theme = saved || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', theme);
+  $('theme-btn').textContent = theme==='dark' ? '淺色' : '深色';
+}
+
+/* ── 動態加入分享/列印按鈕至各計算器標頭 ── */
+tools.forEach(name=>{
+  const header = document.querySelector('#panel-'+name+' .calc-header');
+  if(!header) return;
+  const div = document.createElement('div');
+  div.className = 'hdr-actions';
+  div.innerHTML = '<button class="icon-btn" onclick="shareResult()">📤 分享</button><button class="icon-btn" onclick="window.print()">🖨️ 列印</button>';
+  header.appendChild(div);
+});
+
+/* ══════════ 房貸 ══════════ */
+function calcM(){
+  const loan = v('m-amount')*10000;
+  const ar = v('m-rate');
+  const mr = ar/100/12;
+  const yrs = vi('m-years');
+  const grace = vi('m-grace');
+  const prepay = v('m-prepay')*10000;
+  const cash = v('m-cash')*10000;
+  const ir = v('m-invest')/100;
+  const method = vs('m-method');
+
+  const gm = grace*12;
+  const pm = (yrs-grace)*12;
+  const gracePayment = mr>0 ? loan*mr : 0;
+
+  let monthly=0, totalPay=0, totalInt=0, firstPmt=0, lastPmt=0;
+
+  if(method==='pp' && pm>0){
+    const mp = loan/pm;
+    firstPmt = loan*mr + mp;
+    lastPmt = mp*(1+mr);
+    totalPay = gracePayment*gm;
+    for(let i=0;i<pm;i++){
+      const monthInt = (loan - i*mp)*mr;
+      totalPay += mp + monthInt;
+      totalInt += monthInt;
+    }
+    monthly = firstPmt;
+  } else {
+    if(mr>0 && pm>0) monthly = loan*mr*Math.pow(1+mr,pm)/(Math.pow(1+mr,pm)-1);
+    else if(pm>0) monthly = loan/pm;
+    totalPay = gracePayment*gm + monthly*pm;
+    totalInt = Math.max(0, totalPay - loan);
+    firstPmt = monthly; lastPmt = monthly;
+  }
+
+  const intPct = totalPay>0 ? totalInt/totalPay*100 : 0;
+  const prinPct = 100-intPct;
+  const investGain = cash*(Math.pow(1+ir,yrs)-1);
+  const prepayIntSaved = prepay>0 ? prepay*ar/100*(yrs/2) : 0;
+  const better = investGain > prepayIntSaved ? '投資' : '提前還款';
+
+  $('m-live-monthly').textContent = (method==='pp'?'首月 ':'')+fmt(monthly)+' 元';
+  $('m-live-interest').textContent = fmtW(totalInt/10000)+' 萬';
+  $('m-live-pct').textContent = pct(intPct)+'%';
+
+  const pmtKPI = method==='pp'
+    ? `<div class="kpi"><div class="kpi-label">首月月付（最高）</div><div class="kpi-val blue">${fmt(firstPmt)} <span style="font-size:14px">元</span></div></div><div class="kpi"><div class="kpi-label">末月月付（最低）</div><div class="kpi-val">${fmt(Math.round(lastPmt))} <span style="font-size:14px">元</span></div></div>`
+    : `<div class="kpi"><div class="kpi-label">還款期每月付款</div><div class="kpi-val blue">${fmt(monthly)} <span style="font-size:14px">元</span></div></div>`;
+
+  $('m-results').innerHTML = `
+    <div class="results-panel">
+      <p class="results-title">試算結果（${method==='pp'?'本金平均攤還':'本息平均攤還'}）</p>
+      <div class="kpi-row">
+        ${grace>0?`<div class="kpi"><div class="kpi-label">寬限期月付（僅利息）</div><div class="kpi-val">${fmt(gracePayment)} <span style="font-size:14px">元</span></div></div>`:''}
+        ${pmtKPI}
+        <div class="kpi"><div class="kpi-label">總利息支出</div><div class="kpi-val amber">${fmtW(totalInt/10000)} <span style="font-size:14px">萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">實際總還款</div><div class="kpi-val">${fmtW(totalPay/10000)} <span style="font-size:14px">萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">利息佔總還款</div><div class="kpi-val amber">${pct(intPct)} <span style="font-size:14px">%</span></div></div>
+      </div>
+      <div class="bars">
+        ${bar('fill-blue',prinPct,'本金 '+fmtW(loan/10000)+' 萬',loan)}
+        ${bar('fill-amber',intPct,'利息',totalInt)}
+      </div>
+      <div class="insight${grace>0?' amber':''}">
+        ${grace>0?`<strong>寬限期代價：</strong>享受 ${grace} 年寬限期，期間月付 ${fmt(gracePayment)} 元。寬限期結束後月付驟升至 <strong>${fmt(method==='pp'?firstPmt:monthly)} 元</strong>，差距 ${fmt((method==='pp'?firstPmt:monthly)-gracePayment)} 元，需提前規劃收入。<br><br>`:''}
+        ${method==='pp'?`<strong>本金平均攤還：</strong>首月最高 ${fmt(firstPmt)} 元，每月遞減，末月 ${fmt(Math.round(lastPmt))} 元。與等額攤還相比，初期月付較高但總利息較省。<br><br>`:''}
+        <strong>提前還款 vs 投資：</strong>
+        ${prepay>0?`每年多還 ${fmtW(prepay/10000)} 萬，${yrs} 年可省利息約 ${fmt(prepayIntSaved)} 元。`:'未設定提前還款。'}
+        手邊 ${fmtW(cash/10000)} 萬若以年報酬 ${v('m-invest')}% 投資，${yrs} 年後增加 ${fmt(investGain)} 元。
+        ${prepay>0?`<strong>→ 以此條件，${better}效益更高。</strong>`:''}
+      </div>
+    </div>`;
+}
+
+/* ══════════ 跳槽 ══════════ */
+function calcS(){
+  const cur = v('s-cur');
+  const nw = v('s-new');
+  const comm = v('s-commute');
+  const other = v('s-other');
+  const curB = v('s-curbonus');
+  const newB = v('s-newbonus');
+  const sen = v('s-seniority');
+  const loseSen = parseInt(vs('s-losesen'));
+
+  const raise = nw-cur;
+  const raisePct = cur>0 ? raise/cur*100 : 0;
+  const netMo = raise - comm - other;
+  const bonusDiff = (newB-curB)*nw;
+  const annualNet = netMo*12 + bonusDiff;
+  const senLoss = loseSen ? cur*sen*0.5 : 0;
+  const breakEvenMo = annualNet>0 && senLoss>0 ? Math.ceil(senLoss/(annualNet/12)) : 0;
+  const fiveYr = annualNet*5 - senLoss;
+  const tenYr = annualNet*10 - senLoss;
+
+  const liveColor = netMo>=0 ? '' : 'amber';
+  $('s-live').className = 'live-bar '+(netMo<0?'amber':'');
+  $('s-live-net').textContent = (netMo>=0?'+':'')+fmt(netMo)+' 元';
+  $('s-live-pct').textContent = (raisePct>=0?'+':'')+pct(raisePct)+'%';
+  $('s-live-break').textContent = breakEvenMo>0 ? breakEvenMo+' 個月' : (senLoss===0?'無年資損失':'已正收益');
+
+  $('s-results').innerHTML = `
+    <div class="results-panel">
+      <p class="results-title">試算結果</p>
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-label">帳面薪資漲幅</div><div class="kpi-val ${raise>=0?'blue':'red'}">${raise>=0?'+':''}${pct(raisePct)}<span style="font-size:14px">%</span></div></div>
+        <div class="kpi"><div class="kpi-label">每月淨增加（扣費）</div><div class="kpi-val ${netMo>=0?'blue':'red'}">${netMo>=0?'+':''}${fmt(netMo)}<span style="font-size:14px">元</span></div></div>
+        <div class="kpi"><div class="kpi-label">年度淨增加（含年終差）</div><div class="kpi-val ${annualNet>=0?'blue':'red'}">${annualNet>=0?'+':''}${fmt(annualNet)}<span style="font-size:14px">元</span></div></div>
+        <div class="kpi"><div class="kpi-label">損失年資估值</div><div class="kpi-val amber">${fmt(senLoss)}<span style="font-size:14px">元</span></div></div>
+        <div class="kpi"><div class="kpi-label">五年累積淨增加</div><div class="kpi-val ${fiveYr>=0?'green':'red'}">${fiveYr>=0?'+':''}${fmtW(fiveYr/10000)}<span style="font-size:14px">萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">十年累積淨增加</div><div class="kpi-val ${tenYr>=0?'green':'red'}">${tenYr>=0?'+':''}${fmtW(tenYr/10000)}<span style="font-size:14px">萬</span></div></div>
+      </div>
+      <div class="insight ${annualNet<0?'amber':fiveYr>0?'':'amber'}">
+        ${senLoss>0&&annualNet>0?`<strong>損益平衡點：</strong>約需 <strong>${breakEvenMo} 個月</strong>才能回收損失的年資價值。<br><br>`:''}
+        ${annualNet>0
+          ?`帳面加薪 ${fmt(raise)} 元，扣除通勤費等後每月實際多 <strong>${fmt(netMo)} 元</strong>，五年累積多賺 <strong>${fmtW(fiveYr/10000)} 萬</strong>。`
+          :`<strong>注意：</strong>扣除各項成本後，每月實際${netMo<0?'少':'持平'} ${fmt(Math.abs(netMo))} 元，年度也${annualNet<0?'倒虧':'僅增加'} ${fmt(Math.abs(annualNet))} 元，請重新評估是否值得跳槽。`}
+        ${bonusDiff!==0?`<br><br>年終差異：新工作年終${bonusDiff>0?'多':'少'} ${fmt(Math.abs(bonusDiff))} 元。`:''}
+      </div>
+    </div>`;
+}
+
+/* ══════════ 所得稅 ══════════ */
+function calcT(){
+  const salary = v('t-salary');
+  const bonus = v('t-bonus');
+  const other = v('t-other');
+  const deps = vi('t-deps');
+  const disabled = parseInt(vs('t-disabled'));
+  const ins = v('t-ins');
+  const health = v('t-health');
+  const rent = v('t-rent');
+  const donate = v('t-donate');
+  const medical = v('t-medical');
+  const married = vs('t-status') === 'married';
+
+  const totalIncome = salary + bonus + other;
+  const salaryDeduct = Math.min((salary+bonus)*0.2, 218000);
+  const pplCount = 1 + deps + (married ? 1 : 0);
+  const exemption = pplCount*97000 + disabled*207000;
+  const stdDeduct = married ? 262000 : 131000;
+  const itemDeduct = Math.min(ins, 24000*pplCount)
+    + health
+    + Math.min(rent, 180000)
+    + Math.min(donate, totalIncome*0.2)
+    + medical;
+  const useItem = itemDeduct > stdDeduct;
+  const chosenDeduct = useItem ? itemDeduct : stdDeduct;
+  const saved = Math.abs(itemDeduct - stdDeduct);
+
+  const taxable = Math.max(0, totalIncome - salaryDeduct - exemption - chosenDeduct);
+
+  const brackets = [[0,560000,0.05,0],[560000,1260000,0.12,39200],[1260000,2520000,0.20,140000],[2520000,4720000,0.30,392000],[4720000,Infinity,0.40,864000]];
+  let tax = 0;
+  for(const [lo,hi,r,sub] of brackets){ if(taxable>lo) tax = taxable*r - sub; }
+  tax = Math.max(0, Math.round(tax));
+  const effRate = totalIncome>0 ? tax/totalIncome*100 : 0;
+  const afterTax = totalIncome - tax;
+  const moAfter = afterTax/12;
+
+  $('t-live-tax').textContent = fmt(tax)+' 元';
+  $('t-live-rate').textContent = pct(effRate)+'%';
+  $('t-live-after').textContent = fmt(moAfter)+' 元/月';
+
+  const bRows = brackets.map(([lo,hi,r])=>{
+    const isApplied = taxable>=lo && (taxable<hi||hi===Infinity);
+    return `<tr${isApplied?' class="row-highlight"':''}><td>${fmt(lo)}${hi===Infinity?'以上':'–'+fmt(hi)}</td><td>${r*100}%</td><td${isApplied?` class="win"`:''}>${isApplied?'▶ 適用':''}</td></tr>`;
+  }).join('');
+
+  $('t-results').innerHTML = `
+    <div class="results-panel">
+      <p class="results-title">試算結果（${married?'已婚合併申報':'單身申報'}）</p>
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-label">總所得</div><div class="kpi-val">${fmtW(totalIncome/10000)}<span style="font-size:14px">萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">應稅所得淨額</div><div class="kpi-val">${fmt(taxable)}<span style="font-size:14px">元</span></div></div>
+        <div class="kpi"><div class="kpi-label">應繳稅額</div><div class="kpi-val amber">${fmt(tax)}<span style="font-size:14px">元</span></div></div>
+        <div class="kpi"><div class="kpi-label">有效稅率</div><div class="kpi-val amber">${pct(effRate)}<span style="font-size:14px">%</span></div></div>
+        <div class="kpi"><div class="kpi-label">稅後年收</div><div class="kpi-val blue">${fmtW(afterTax/10000)}<span style="font-size:14px">萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">稅後月收（均攤）</div><div class="kpi-val blue">${fmt(moAfter)}<span style="font-size:14px">元</span></div></div>
+      </div>
+      <div class="bars">
+        ${bar('fill-blue', salaryDeduct/totalIncome*100, '薪資特別扣除額', salaryDeduct)}
+        ${bar('fill-green', exemption/totalIncome*100, '免稅額（'+pplCount+'人）', exemption)}
+        ${bar('fill-blue-lt', chosenDeduct/totalIncome*100, (useItem?'列舉':'標準')+'扣除額（'+(married?'已婚':'單身')+'）', chosenDeduct)}
+        ${bar('fill-amber', taxable/totalIncome*100, '應稅所得', taxable)}
+      </div>
+      <div class="insight">
+        ${married?`<strong>已婚合併申報：</strong>標準扣除額 262,000 元（比單身多 131,000 元），配偶免稅額再加 97,000 元，合計多減少稅基 228,000 元。<br><br>`:''}
+        <strong>建議採用${useItem?'列舉':'標準'}扣除額（${fmt(chosenDeduct)} 元）</strong>，比另一方式多省 <strong>${fmt(saved)} 元</strong>稅負。
+        ${!useItem&&itemDeduct>0?`<br>目前列舉扣除合計 ${fmt(itemDeduct)} 元，未超過標準扣除額，繼續用標準扣除較省。`:''}
+        <br><br>所得扣除明細：薪資扣除 ${fmt(salaryDeduct)} + 免稅額 ${fmt(exemption)} + 扣除額 ${fmt(chosenDeduct)} = <strong>共減少 ${fmt(salaryDeduct+exemption+chosenDeduct)} 元</strong>應稅所得。
+      </div>
+      <div style="overflow-x:auto;margin-top:16px">
+        <table class="cmp-table"><thead><tr><th>應稅所得範圍</th><th>稅率</th><th>是否適用</th></tr></thead><tbody>${bRows}</tbody></table>
+      </div>
+    </div>`;
+}
+
+/* ══════════ 買車 ══════════ */
+function calcC(){
+  const price = v('c-price')*10000;
+  const ctype = vs('c-type');
+  const loanYrs = vi('c-loan');
+  const lr = v('c-lrate')/100/12;
+  const hold = vi('c-hold');
+  const resale = v('c-resale')*10000;
+  const fuel = v('c-fuel')*12;
+  const park = v('c-park')*12;
+  const ins = v('c-ins');
+  const repair = v('c-repair');
+  const ticket = v('c-ticket');
+
+  const licTax = ctype==='ev' ? 0 : ctype==='gas2' ? 11230 : 7120;
+  const fuelTax = ctype==='ev' ? 0 : 4800;
+
+  const lm = loanYrs*12;
+  let totalInt=0, moLoan=0;
+  if(loanYrs>0 && lr>0){
+    moLoan = price*lr*Math.pow(1+lr,lm)/(Math.pow(1+lr,lm)-1);
+    totalInt = moLoan*lm - price;
+  } else if(loanYrs>0){
+    moLoan = lm>0 ? price/lm : 0;
+  }
+
+  const dep = price - resale;
+  const annRun = fuel + park + ins + repair + ticket + licTax + fuelTax;
+  const total = dep + totalInt + annRun*hold;
+  const annCost = total/hold;
+  const moCost = annCost/12;
+
+  const depPct = dep/total*100;
+  const intPct2 = totalInt/total*100;
+  const runPct = annRun*hold/total*100;
+
+  const topItem = dep>=totalInt && dep>=annRun*hold ? '折舊' : totalInt>=annRun*hold ? '貸款利息' : '日常費用';
+
+  $('c-live-mo').textContent = fmt(moCost)+' 元';
+  $('c-live-total').textContent = fmtW(total/10000)+' 萬';
+  $('c-live-top').textContent = topItem;
+
+  $('c-results').innerHTML = `
+    <div class="results-panel">
+      <p class="results-title">試算結果</p>
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-label">每月真實成本</div><div class="kpi-val amber">${fmt(moCost)}<span style="font-size:14px">元</span></div></div>
+        <div class="kpi"><div class="kpi-label">vs 只看貸款月付</div><div class="kpi-val">${fmt(moLoan)}<span style="font-size:14px">元</span></div><div class="kpi-sub">差距 ${fmt(moCost-moLoan)} 元/月</div></div>
+        <div class="kpi"><div class="kpi-label">${hold} 年總花費</div><div class="kpi-val amber">${fmtW(total/10000)}<span style="font-size:14px">萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">車輛折舊損失</div><div class="kpi-val red">${fmtW(dep/10000)}<span style="font-size:14px">萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">貸款利息</div><div class="kpi-val">${fmt(totalInt)}<span style="font-size:14px">元</span></div></div>
+        <div class="kpi"><div class="kpi-label">油+停+保+修+稅</div><div class="kpi-val">${fmtW(annRun*hold/10000)}<span style="font-size:14px">萬</span></div></div>
+      </div>
+      <div class="bars">
+        ${bar('fill-red', depPct, '折舊（車價損失）', dep)}
+        ${bar('fill-amber', runPct, '日常費用 × '+hold+'年', annRun*hold)}
+        ${totalInt>0?bar('fill-blue', intPct2, '貸款利息', totalInt):''}
+      </div>
+      <div class="insight amber">
+        <strong>真實月成本 ${fmt(moCost)} 元</strong>，比貸款月付 ${fmt(moLoan)} 元多 <strong>${fmt(moCost-moLoan)} 元</strong>。
+        最大成本是<strong>${topItem}（${Math.round(topItem==='折舊'?depPct:topItem==='貸款利息'?intPct2:runPct)}%）</strong>。
+        ${depPct>40?'新車前兩年折舊最快（約 15–25%/年），考慮購買 2–3 年車齡的中古車可節省大量折舊。':hold>=8?'長期持有有效攤薄折舊成本，持有越久每年均攤成本越低。':''}
+      </div>
+    </div>`;
+}
+
+/* ══════════ 退休金 ══════════ */
+function calcR(){
+  const age = vi('r-age');
+  const retAge = vi('r-retage');
+  const life = vi('r-life');
+  const expMo = v('r-exp');
+  const inflation = v('r-inflation')/100;
+  const savingsNow = v('r-save')*10000;
+  const moSave = v('r-monthly');
+  const retRate = v('r-ret')/100;
+  const pension = v('r-pension');
+  const otherInc = v('r-other');
+
+  const yrsToRet = Math.max(1, retAge-age);
+  const retYrs = Math.max(1, life-retAge);
+  const moRate = retRate/12;
+  const months = yrsToRet*12;
+
+  // 退休時資產
+  const futureAssets = savingsNow*Math.pow(1+retRate,yrsToRet) +
+    (moRate>0 ? moSave*(Math.pow(1+moRate,months)-1)/moRate : moSave*months);
+
+  // 退休時物價調整後每月支出
+  const adjExpMo = expMo*Math.pow(1+inflation,yrsToRet);
+  const adjPension = pension*Math.pow(1+inflation*0.5,yrsToRet); // 勞保部分調整
+  const adjOther = otherInc;
+  const moNeed = Math.max(0, adjExpMo - adjPension - adjOther);
+  const totalNeeded = moNeed*12*retYrs;
+  const gap = totalNeeded - futureAssets;
+  const moExtra = gap>0 && moRate>0 ? gap*moRate/(Math.pow(1+moRate,months)-1) :
+    gap>0 && months>0 ? gap/months : 0;
+
+  const liverColor = gap>0 ? 'amber' : '';
+  $('r-live').className = 'live-bar '+(gap>0?'amber':'green');
+  $('r-live-assets').textContent = fmtW(futureAssets/10000)+' 萬';
+  $('r-live-gap').textContent = gap>0 ? fmtW(gap/10000)+' 萬不足' : '已足夠';
+  $('r-live-extra').textContent = gap>0 ? fmt(moExtra)+' 元' : '無需增加';
+
+  const assetsPct = Math.min(100, futureAssets/Math.max(totalNeeded,1)*100);
+
+  $('r-results').innerHTML = `
+    <div class="results-panel">
+      <p class="results-title">試算結果</p>
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-label">退休時預估資產</div><div class="kpi-val blue">${fmtW(futureAssets/10000)}<span style="font-size:14px">萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">退休後總需求（${retYrs}年）</div><div class="kpi-val">${fmtW(totalNeeded/10000)}<span style="font-size:14px">萬</span></div></div>
+        <div class="kpi"><div class="kpi-label">缺口</div><div class="kpi-val ${gap>0?'red':'green'}">${gap>0?fmtW(gap/10000)+' 萬':'已足夠'}</div></div>
+        <div class="kpi"><div class="kpi-label">每月需再多存</div><div class="kpi-val ${gap>0?'amber':'green'}">${gap>0?fmt(moExtra)+' 元':'無需增加'}</div></div>
+        <div class="kpi"><div class="kpi-label">退休後月支出（通膨調整）</div><div class="kpi-val">${fmt(adjExpMo)}<span style="font-size:14px">元</span></div></div>
+        <div class="kpi"><div class="kpi-label">退休後月缺口（扣勞保）</div><div class="kpi-val">${fmt(moNeed)}<span style="font-size:14px">元</span></div></div>
+      </div>
+      <div class="bars">
+        <div class="bar-row"><div class="bar-meta"><strong>資產達成率</strong><span>${Math.round(assetsPct)}%</span></div><div class="bar-track"><div class="bar-fill ${assetsPct>=100?'fill-green':assetsPct>=70?'fill-blue':'fill-amber'}" style="width:${Math.min(100,Math.round(assetsPct))}%"></div></div></div>
+      </div>
+      <div class="insight ${gap>0?'amber':'green'}">
+        距退休 <strong>${yrsToRet} 年</strong>，退休後預計生活 <strong>${retYrs} 年</strong>。通膨調整後，退休當年每月生活費約 ${fmt(adjExpMo)} 元，扣除勞保月退 ${fmt(Math.round(adjPension))} 元，每月需自籌 <strong>${fmt(moNeed)} 元</strong>。<br><br>
+        ${gap>0
+          ?`目前規劃有 <strong>${fmtW(gap/10000)} 萬</strong>的缺口，每月需再多存 <strong>${fmt(moExtra)} 元</strong>，或將投資報酬率提高。`
+          :`<strong>目前規劃已足夠，退休金足以支應 ${retYrs} 年生活。</strong>若希望更有保障，可考慮多存一些作為緩衝。`}
+      </div>
+    </div>`;
+}
+
+/* ══════════ 租 vs 買 ══════════ */
+function calcRV(){
+  const price = v('rv-price')*10000;
+  const down = v('rv-down')*10000;
+  const mr = v('rv-mrate')/100/12;
+  const myrs = vi('rv-myears');
+  const mgmt = v('rv-mgmt');
+  const app = v('rv-app')/100;
+  const rent = v('rv-rent');
+  const rrise = v('rv-rrise')/100;
+  const inv = v('rv-inv')/100;
+  const horizon = vi('rv-horizon');
+  const reno = v('rv-reno')*10000;
+
+  const loan = price - down;
+  const lm = myrs*12;
+  let moMortgage = 0;
+  if(mr>0) moMortgage = loan*mr*Math.pow(1+mr,lm)/(Math.pow(1+mr,lm)-1);
+  else moMortgage = lm>0 ? loan/lm : 0;
+
+  const propTax = price*0.008/12;
+  const moBuyTotal = moMortgage + mgmt + propTax;
+
+  // 買房淨值
+  const futurePrice = price*Math.pow(1+app,horizon);
+  const hm = horizon*12;
+  const paidMo = Math.min(hm, lm);
+  let remLoan = mr>0
+    ? loan*Math.pow(1+mr,paidMo) - moMortgage*(Math.pow(1+mr,paidMo)-1)/mr
+    : Math.max(0, loan - moMortgage*paidMo);
+  remLoan = Math.max(0, remLoan);
+  const buyNet = futurePrice - remLoan - reno;
+
+  // 租屋淨值：頭期款+裝潢拿去投資，但要扣掉月租支出
+  const downInvested = (down+reno)*Math.pow(1+inv,horizon);
+  const moDiff = Math.max(0, moBuyTotal - rent); // 買房多付的金額，租屋可拿去投資
+  const imr = inv/12;
+  const extraInvested = imr>0 ? moDiff*(Math.pow(1+imr,hm)-1)/imr : moDiff*hm;
+  // 租屋需多付的租金（若租金>月差，要扣）
+  let totalRent = 0;
+  let curRent = rent;
+  for(let i=0;i<horizon;i++){ totalRent += curRent*12; curRent *= (1+rrise); }
+  const rentNet = downInvested + extraInvested;
+
+  const winner = buyNet > rentNet ? '買房' : '租屋＋投資';
+  const diff = Math.abs(buyNet-rentNet);
+  const finalRentMo = rent*Math.pow(1+rrise,horizon);
+
+  $('rv-live').className = 'live-bar '+(buyNet>rentNet?'green':'');
+  $('rv-live-buy').textContent = fmt(moBuyTotal)+' 元';
+  $('rv-live-buynet').textContent = fmtW(buyNet/10000)+' 萬';
+  $('rv-live-rentnet').textContent = fmtW(rentNet/10000)+' 萬';
+
+  const buyPct = buyNet/Math.max(buyNet,rentNet)*100;
+  const rentPct = rentNet/Math.max(buyNet,rentNet)*100;
+
+  $('rv-results').innerHTML = `
+    <div class="results-panel">
+      <p class="results-title">試算結果（${horizon} 年後）</p>
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-label">買房每月總支出</div><div class="kpi-val">${fmt(moBuyTotal)}<span style="font-size:14px">元</span></div></div>
+        <div class="kpi"><div class="kpi-label">目前月租金</div><div class="kpi-val">${fmt(rent)}<span style="font-size:14px">元</span></div></div>
+        <div class="kpi"><div class="kpi-label">${horizon}年後 買房淨值</div><div class="kpi-val ${buyNet>rentNet?'green':'blue'}">${fmtW(buyNet/10000)}<span style="font-size:14px">萬</span></div>${buyNet>rentNet?`<div class="kpi-sub">▲ 較優</div>`:''}</div>
+        <div class="kpi"><div class="kpi-label">${horizon}年後 租屋淨值</div><div class="kpi-val ${rentNet>buyNet?'green':'blue'}">${fmtW(rentNet/10000)}<span style="font-size:14px">萬</span></div>${rentNet>buyNet?`<div class="kpi-sub">▲ 較優</div>`:''}</div>
+        <div class="kpi"><div class="kpi-label">${horizon}年後 租金（漲後）</div><div class="kpi-val amber">${fmt(finalRentMo)}<span style="font-size:14px">元/月</span></div></div>
+        <div class="kpi"><div class="kpi-label">差距</div><div class="kpi-val">${fmtW(diff/10000)}<span style="font-size:14px">萬</span></div></div>
+      </div>
+      <div class="bars">
+        ${bar(buyNet>rentNet?'fill-green':'fill-blue', buyPct, '買房淨值', buyNet)}
+        ${bar(rentNet>buyNet?'fill-green':'fill-blue-lt', rentPct, '租屋+投資淨值', rentNet)}
+      </div>
+      <div class="insight ${buyNet>rentNet?'':'green'}">
+        <strong>以此條件，${horizon} 年後${winner}財務結果較佳，差距約 ${fmtW(diff/10000)} 萬。</strong><br><br>
+        買房月支出（房貸 ${fmt(moMortgage)} + 管理費 ${fmt(mgmt)} + 稅 ${fmt(Math.round(propTax))}）= <strong>${fmt(moBuyTotal)} 元</strong>，比月租多 <strong>${fmt(moBuyTotal-rent)} 元</strong>。
+        ${horizon} 年後租金將漲至 <strong>${fmt(Math.round(finalRentMo))} 元/月</strong>。
+        <br><br>注意：此為純財務試算。買房的穩定居住權、裝潢自由、退休保障，以及租屋的靈活移動性，均為重要的非財務考量。
+      </div>
+    </div>`;
+}
+
+/* 初始化 */
+loadFromStorage();
+loadFromURL();
+initTheme();
+go(currentTool, true);
+</script>
+</body>
+</html>
