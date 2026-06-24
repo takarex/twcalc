@@ -9,7 +9,7 @@
   "lang": "zh-TW",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%231a5faa'/><rect x='16' y='64' width='18' height='20' rx='4' fill='white' fill-opacity='.65'/><rect x='41' y='44' width='18' height='40' rx='4' fill='white' fill-opacity='.85'/><rect x='66' y='16' width='18' height='68' rx='4' fill='white'/></svg>",
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%231a5faa'/><text x='50' y='72' text-anchor='middle' font-size='72' font-weight='700' fill='white' font-family='monospace'>$</text></svg>",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
