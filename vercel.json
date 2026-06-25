@@ -4,6 +4,7 @@
   "routes": [
     { "src": "/sitemap\\.xml", "dest": "/sitemap.xml" },
     { "src": "/robots\\.txt", "dest": "/robots.txt" },
+    { "src": "/privacy\\.html", "dest": "/privacy.html" },
     { "src": "/google([a-z0-9]+)\\.html", "dest": "/google$1.html" },
     { "src": "/(.*)", "dest": "/index.html" }
   ],
